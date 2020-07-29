@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import datetime
+
+from django.conf.global_settings import STATICFILES_DIRS, STATICFILES_STORAGE
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,19 +28,22 @@ SECRET_KEY = '^(5iu^n&69h-5on%2n#$2@f#p$-k5equid_fa6kzf%7!6l-_sc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['invoicebook.meyers.eu','192.168.1.72','127.0.0.1','localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'InvoiceBook',
+    #'rest_framework',
+    #'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'InvoiceBook',
+    
 ]
 
 MIDDLEWARE = [
@@ -55,8 +61,7 @@ ROOT_URLCONF = 'settings.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'CET'
 
 USE_I18N = True
 
@@ -123,7 +128,31 @@ USE_L10N = True
 USE_TZ = True
 
 
+#CORS_ORIGIN_ALLOW_ALL = False
+#CORS_ALLOW_CREDENTIALS = True
+#CORS_ORIGIN_WHITELIST = (
+#    'http://localhost:3000',
+#    'http://127.0.0.1:8000',
+#    'http://localhost:8000',
+#    'https://localhost:8000',
+#)
+
+#JWT_AUTH = {
+#    'JWT_PAYLOAD_HANDLER': 'InvoiceBook.utils.jwt_payload_handler',
+#    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
+#    'JWT_ALLOW_REFRESH': True,
+#}
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'build/static'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
