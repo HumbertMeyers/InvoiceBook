@@ -19,7 +19,7 @@ class User(models.Model):
 		]
 		db_table = 'User'
 		
-class Fournisseurs(models.Model):
+class Fournisseur(models.Model):
 	id_Fournisseur = models.AutoField(primary_key=True)
 	id_User = models.ForeignKey(User, models.DO_NOTHING, db_column='id_User')
 	nom = models.CharField(max_length=45)
@@ -30,26 +30,25 @@ class Fournisseurs(models.Model):
 		db_table = 'Fournisseurs'
 		unique_together = (('nom', 'id_User'),)
 		
-class Clients(models.Model):
+class Client(models.Model):
 	id_Client = models.AutoField(primary_key=True)
 	id_User = models.ForeignKey(User, models.DO_NOTHING, db_column='id_User')
 	nom = models.CharField(max_length=45)
-	numeroTVA = models.CharField(max_length=20)
+	numeroTVA = models.CharField(max_length=20, blank=True, null=True)
 
 	class Meta:
 		managed = True
 		db_table = 'Clients'
 		unique_together = (('nom', 'id_User'),)
 		
-class Factures(models.Model):
+class Facture(models.Model):
 	id_Facture = models.AutoField(primary_key=True)
 	dateFacturation = models.DateField()
 	montant = models.DecimalField(max_digits=11, decimal_places=2)
 	nomDeFichier = models.FileField()
-	numeroTVA = models.CharField(max_length=20)
 	id_User = models.ForeignKey(User, models.DO_NOTHING, db_column='id_User')
-	id_Fournisseur = models.ForeignKey(Fournisseurs, models.DO_NOTHING, db_column='id_Fournisseur')
-	id_Client = models.ForeignKey(Clients, models.DO_NOTHING, db_column='id_Cient')
+	id_Fournisseur = models.ForeignKey(Fournisseur, models.DO_NOTHING, db_column='id_Fournisseur', blank=True, null=True)
+	id_Client = models.ForeignKey(Client, models.DO_NOTHING, db_column='id_Cient', blank=True, null=True)
 
 	class Meta:
 		managed = True
