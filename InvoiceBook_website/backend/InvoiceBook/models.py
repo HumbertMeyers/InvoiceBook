@@ -4,7 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
 class User(models.Model):
-	id = models.AutoField(primary_key=True)
+	id_User= models.AutoField(primary_key=True)
 	nom = models.CharField(max_length=50)
 	email = models.EmailField(max_length=100)
 	password = models.CharField(max_length=100)

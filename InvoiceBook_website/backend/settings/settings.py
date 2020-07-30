@@ -35,7 +35,7 @@ ALLOWED_HOSTS = ['invoicebook.meyers.eu','192.168.1.72','127.0.0.1','localhost']
 
 INSTALLED_APPS = [
     'InvoiceBook',
-    #'rest_framework',
+    'rest_framework',
     #'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -61,7 +61,7 @@ ROOT_URLCONF = 'settings.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [], #[os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
