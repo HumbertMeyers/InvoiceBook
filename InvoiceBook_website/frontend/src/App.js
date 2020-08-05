@@ -1,38 +1,26 @@
-import React, {Component} from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Header from './components/header/Header.js'
 
-class App extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedIn: false,
-      user_id: 0,
-      show_popUp: "",
-    };
-  }
-
-  render () {
-    return (
+function App() {
+  return (
     <div className="App">
-      <div className="background">
-        <div className="header">
-          <Header
-            loggedIn={this.state.loggedIn}
-            show_popUp={this.show_popUp}
-          />
-        </div>
-        <div className="Body">
-          <div id="bodyContent">
-            <p>En cours de travail</p>
-          </div>
-        </div>
-      </div>
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
     </div>
-    );
-  }
+  );
 }
 
 export default App;
