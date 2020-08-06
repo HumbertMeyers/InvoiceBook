@@ -1,5 +1,10 @@
 .App {
-  text-align: center;
+  font-family: "Abel", sans-serif;
+  font-size: calc(10px + 1vmin);
+  color: white;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -35,4 +40,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.bg {
+  /*Bg generated with: https://cssgradient.io */
+  background: rgb(9, 164, 247);
+  background: linear-gradient(
+    15deg,
+    rgb(67, 95, 155) 50%,
+    rgb(119, 45, 45) 18%
+  );
+  min-height: 100vh;
 }
