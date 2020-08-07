@@ -17,7 +17,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      signed_in: false,
+      logged_in: false,
       user_id: 0,
       show_popUp: "",
     };
@@ -26,7 +26,7 @@ class App extends Component {
   componentDidMount() {
     if (tokenIsValid()) {
       let token = localStorage.getItem('token');
-      let endpoint = "/api/persons/login_token/?token=";
+      let endpoint = "/api/users/login_token/?token=";
       let req = new api();
       req.open("GET", `${endpoint}${token}`);
 
@@ -36,8 +36,8 @@ class App extends Component {
           if (this.status === 200) {
             let user = this.responseText[0];
             self.setState({
-              user_id: user.id_person,
-              signed_in: true,
+              user_id: user.id_user,
+              loggeed_in: true,
             });
             getUserProfileAPIRequest(userFromToken().id);
           }
@@ -62,14 +62,14 @@ class App extends Component {
   popUp = () => {
     let p;
     switch (this.state.show_popUp) {
-      case "sign-in":
-        p = <Connexion showPopUp={true} handle_signIn={this.handle_signIn} />;
+      case "Connexion":
+        p = <Connexion showPopUp={true} handle_signIn={this.handle_connexion} />;
         break;
-      case "sign-up":
-        p = <Inscription showPopUp={true} handle_signIn={this.handle_signIn} />;
+      case "Inscription":
+        p = <Inscription showPopUp={true} handle_signIn={this.handle_connexion} />;
         break;
-      case "sign-out":
-        p = <Deconnexion showPopUp={true} handle_signOut={this.handle_signOut} />;
+      case "Deconnexion":
+        p = <Deconnexion showPopUp={true} handle_signOut={this.handle_deconnexion} />;
         break;
       default:
         p = null;
@@ -77,24 +77,24 @@ class App extends Component {
     return p;
   };
 
-  handle_signIn = (u_id, u_token) => {
+  handle_connexion = (u_id, u_token) => {
     localStorage.setItem('token',u_token);
     //getUserProfileAPIRequest(userFromToken().id);
     this.setState({
       user_id: u_id,
-      signed_in: true,
+      logged_in: true,
     });
     window.location.reload();
   };
 
-  handle_signOut = () => {
+  handle_deconnexion = () => {
     localStorage.removeItem('token');
     document.getElementById("AfficheUserName").innerHTML = "";
     history.push('/');
     window.location.reload();
     this.setState({
       user_id: 0,
-      signed_in: false,
+      logged_in: false,
     });
   };
 
@@ -104,7 +104,7 @@ class App extends Component {
         <div className="bg">
           <Router>
             <Header
-              signed_in={this.state.signed_in}
+              signed_in={this.state.logged_in}
               display_popUp={this.display_popUp}
             />
             <Layout />

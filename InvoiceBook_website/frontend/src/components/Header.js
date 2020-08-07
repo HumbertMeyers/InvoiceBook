@@ -39,16 +39,19 @@ function Header (props) {
 			        className="d-inline-block align-top"
 			      />{' '}
 		      InvoiceBook</Navbar.Brand>
+			    <Navbar.Text>
+			      <span id="AfficheUserName" ></span>
+			    </Navbar.Text>
 		      <Navbar.Toggle aria-controls="basic-navbar-nav" />
 		      <Navbar.Collapse id="basic-navbar-nav">
 		        <Nav className="ml-auto">
 	            <Nav.Link href="/">Home</Nav.Link>
 		          <Nav.Link href="/Help">Help</Nav.Link>
 	            <Nav.Link id="Connexion">
-					      <span onClick={() => props.display_popUp("connexion")}>Connexion</span>
+					      <span onClick={() => props.display_popUp("Connexion")}>Connexion</span>
 				      </Nav.Link>
 			        <Nav.Link id="Inscription">
-					      <span onClick={() => props.display_popUp("inscription")}>Inscription</span>
+					      <span onClick={() => props.display_popUp("Inscription")}>Inscription</span>
 				      </Nav.Link>
 		        </Nav>
 		      </Navbar.Collapse>
@@ -98,12 +101,12 @@ function Header (props) {
 		</>
 	)
 
-	return <div>{props.signed_in ? loggedIn : loggedOut}</div>;
+	return <div>{props.logged_in ? loggedIn : loggedOut}</div>;
 }
 
 export default Header;
 
 Header.propTypes = {
-  signed_in: PropTypes.bool.isRequired,
+  logged_in: PropTypes.bool.isRequired,
   display_popUp: PropTypes.func.isRequired,
 };

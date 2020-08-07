@@ -5,10 +5,11 @@ import styled from 'styled-components';
 const Styles = styled.div(`
 	.Home {
 	  width: 100%;
-	  display: flex;
-	  flex-direction: row;
-	  flex-wrap: wrap;
-	  justify-content: space-around;
+	}
+	#homeWrapper{
+		width: 90%;
+		margin-left: 5%;
+		margin-top: 5%;
 	}
 `)
 
@@ -18,27 +19,35 @@ function Home() {
 	return (
 		<Styles>
 		  <div className="Home">
-			  <Row md={{offset:2}}>
-				  <Col sm={{offset: 2}} className="h2">Bienvenue</Col>
-			  </Row>
-			  <Row>
-				  <Col sm={{offset:2}} className="h4">
-					  <span id="AfficheUserName" ><br /></span>
+			  <div id="homeWrapper">
+				  <br />
+				  <Col md={{ offset: 3 }}>
+
+					  <Row>
+						  <div className="h2">
+							  Bienvenue
+						  </div>
+					  </Row>
+					  <Row>
+						  <div className="h4">
+								  <span id="AfficheUserName" ><br /></span>
+						  </div>
+					  </Row>
+					  <Row>
+						  <br /><br />
+						  <div className="text">
+							  Vous voici sur la page de garde de InvoiceBook. <br/>
+							  L'application web pour gérer en simplicité vos factures.
+						  </div>
+					  </Row>
+					  <br />
+					  <Row md={{ offset: 2 }}>
+						  <div>
+							  Si vous vous demandez comment utiliser cet outils, c'est bien simple, cliquez sur help
+						  </div>
+					  </Row>
 				  </Col>
-			  </Row>
-			  <br /><br />
-			  <Row >
-				  <Col sm={{offset:2}} className="div">
-					  Vous voici sur la page de garde de InvoiceBook. <br/>
-					  L'application web pour gérer en simplicité vos factures.
-				  </Col>
-			  </Row>
-			  <br />
-			  <Row>
-				  <Col sm={{offset:2}} className="div">
-					  Si vous vous demandez comment utiliser cet outils, c'est bien simple, cliquez sur help
-				  </Col>
-			  </Row>
+			  </div>
       </div>
 		</Styles>
 	);

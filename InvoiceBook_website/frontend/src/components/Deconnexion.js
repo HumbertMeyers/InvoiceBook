@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Modal } from "react-bootstrap";
 
-//import "./Form.css";
+import "./FormSign.css";
 
-class SignOut extends Component {
+class Deconnexion extends Component {
   constructor(props) {
     super(props);
     this.showPopUp = true;
@@ -21,7 +21,7 @@ class SignOut extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.handle_signOut();
+    this.props.handle_deconnexion();
     this.closePopUp();
   };
 
@@ -36,27 +36,27 @@ class SignOut extends Component {
           }}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Sign Out</Modal.Title>
+            <Modal.Title>Deconnexion</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             <form id="signOutForm" onSubmit={this.handleSubmit}>
               <label className="FormField_Label">
                 {" "}
-                Are you sure you want to sign out ?
+                Êtes vous sur de vouloir vous déconnecter ?
               </label>
 
               <div className="FormBtns">
                 <input
                   className="FormCancelBtn"
                   type="button"
-                  value="Cancel"
+                  value="Annuler"
                   onClick={this.closePopUp}
                 />
                 <input
                   className="FormSubmitBtn"
                   type="submit"
-                  value="Sign-out"
+                  value="Se Déconnecter"
                 />
               </div>
             </form>
@@ -67,9 +67,9 @@ class SignOut extends Component {
   }
 }
 
-export default SignOut;
+export default Deconnexion;
 
-SignOut.propTypes = {
+Deconnexion.propTypes = {
   showPopUp: PropTypes.bool.isRequired,
-  handle_signOut: PropTypes.func.isRequired,
+  handle_deconnexion: PropTypes.func.isRequired,
 };
