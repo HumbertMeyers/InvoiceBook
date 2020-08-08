@@ -36,7 +36,7 @@ ALLOWED_HOSTS = ['invoicebook.meyers.eu','192.168.1.72','127.0.0.1','localhost']
 INSTALLED_APPS = [
     'InvoiceBook',
     'rest_framework',
-    #'corsheaders',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -128,20 +129,20 @@ USE_L10N = True
 USE_TZ = True
 
 
-#CORS_ORIGIN_ALLOW_ALL = False
-#CORS_ALLOW_CREDENTIALS = True
-#CORS_ORIGIN_WHITELIST = (
-#    'http://localhost:3000',
-#    'http://127.0.0.1:8000',
-#    'http://localhost:8000',
-#    'https://localhost:8000',
-#)
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'https://localhost:8000',
+)
 
-#JWT_AUTH = {
-#    'JWT_PAYLOAD_HANDLER': 'InvoiceBook.utils.jwt_payload_handler',
-#    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
-#    'JWT_ALLOW_REFRESH': True,
-#}
+JWT_AUTH = {
+    'JWT_PAYLOAD_HANDLER': 'InvoiceBook.utils.jwt_payload_handler',
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
+    'JWT_ALLOW_REFRESH': True,
+}
 
 
 

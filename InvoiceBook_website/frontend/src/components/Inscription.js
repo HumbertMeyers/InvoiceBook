@@ -7,7 +7,8 @@ import "./FormSign.css";
 
 const user_initState = {
   email: "",
-  nom: "",
+  lastName: "",
+  firstName: "",
   newPassword: "",
   confirmPassword: "",
   estOK: false,
@@ -57,10 +58,6 @@ class Inscription extends Component {
           if (error.includes("email")) {
             document.getElementById("email_error").innerHTML = error;
           }
-          else if (error.includes("alias")) {
-            document.getElementById("email_error").innerHTML = "";
-            document.getElementById("alias_error").innerHTML = error;
-          }
           else {
             //pass
           }
@@ -71,7 +68,7 @@ class Inscription extends Component {
     req.send(newprofile);
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     let target = e.target;
     let value = target.type === "checkbox" ? target.checked : target.value;
     let name = target.name;
@@ -84,8 +81,7 @@ class Inscription extends Component {
         if (name === "newPassword") {
           //Check if password has a minimum length of 8
           if (value !== "" && value.length < 8) {
-            let errorMessage =
-              "<p>Le mot de passe doit faire au minimun 8 caractères!</p>";
+            let errorMessage = "<p>Le mot de passe doit faire au minimun 8 caractères!</p>";
             document.getElementById(
               "newpassword_error"
             ).innerHTML = errorMessage;
@@ -110,10 +106,11 @@ class Inscription extends Component {
     );
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     let data = {
-	    nom: this.state.nom,
+	    lastName: this.state.lastname,
+      firstName: this.state.firstname,
       email: this.state.email,
       password: this.state.newPassword,
     };
@@ -131,7 +128,7 @@ class Inscription extends Component {
           }}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Sign Up</Modal.Title>
+            <Modal.Title>Inscription</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -145,11 +142,26 @@ class Inscription extends Component {
                 type="email"
                 className="FormField_Input"
                 name="email"
+                autoComplete="username"
                 placeholder="Enter your e-mail address"
                 value={this.state.email}
                 onChange={this.handleChange}
               />
               <span className="error" id="email_error"></span>
+              <label className="FormField_Label" htmlFor="prenom">
+                {" "}
+                Préom{" "}
+              </label>
+              <input
+                required
+                type="text"
+                className="FormField_Input"
+                name="prenom"
+                autoComplete="given-name"
+                placeholder="Entrez votre prénom"
+                value={this.state.nom}
+                onChange={this.handleChange}
+              />
               <label className="FormField_Label" htmlFor="nom">
                 {" "}
                 Nom{" "}
@@ -159,8 +171,9 @@ class Inscription extends Component {
                 type="text"
                 className="FormField_Input"
                 name="nom"
+                autoComplete="family-name"
                 placeholder="Entrez votre nom"
-                value={this.state.lastname}
+                value={this.state.nom}
                 onChange={this.handleChange}
               />
               <label className="FormField_Label" htmlFor="newPassword">
@@ -172,11 +185,12 @@ class Inscription extends Component {
                 type="password"
                 className="FormField_Input"
                 name="newPassword"
+                autoComplete="new-password"
                 placeholder="Enter a new password"
                 value={this.state.newPassword}
                 onChange={this.handleChange}
               />
-              <span className="error" id="newpassword_error"></span>
+              <span className="error" id="newpassword_error" ></span>
               <label className="FormField_Label" htmlFor="confirmPassword">
                 {" "}
                 Confirmation du mot de passe{" "}
@@ -186,6 +200,7 @@ class Inscription extends Component {
                 type="password"
                 className="FormField_Input"
                 name="confirmPassword"
+                autoComplete="new-password"
                 placeholder="Enter your password"
                 value={this.state.confirmPassword}
                 onChange={this.handleChange}

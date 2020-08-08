@@ -35,14 +35,15 @@ class App extends Component {
         if (this.readyState === 4) {
           if (this.status === 200) {
             let user = this.responseText[0];
+            console.log(user);
             self.setState({
               user_id: user.id_user,
-              loggeed_in: true,
+              logged_in: true,
             });
             getUserProfileAPIRequest(userFromToken().id);
           }
           if (this.status === 404) {
-            document.getElementById("userNameDisplay").innerHTML = "";
+            document.getElementById("AfficheUserName").innerHTML = "";
             //history.push('/');
           }
         }
@@ -63,13 +64,13 @@ class App extends Component {
     let p;
     switch (this.state.show_popUp) {
       case "Connexion":
-        p = <Connexion showPopUp={true} handle_signIn={this.handle_connexion} />;
+        p = <Connexion showPopUp={true} handle_connexion={this.handle_connexion} />;
         break;
       case "Inscription":
-        p = <Inscription showPopUp={true} handle_signIn={this.handle_connexion} />;
+        p = <Inscription showPopUp={true} handle_connexion={this.handle_connexion} />;
         break;
       case "Deconnexion":
-        p = <Deconnexion showPopUp={true} handle_signOut={this.handle_deconnexion} />;
+        p = <Deconnexion showPopUp={true} handle_deconnexion={this.handle_deconnexion} />;
         break;
       default:
         p = null;
@@ -79,7 +80,7 @@ class App extends Component {
 
   handle_connexion = (u_id, u_token) => {
     localStorage.setItem('token',u_token);
-    //getUserProfileAPIRequest(userFromToken().id);
+    getUserProfileAPIRequest(userFromToken().id);
     this.setState({
       user_id: u_id,
       logged_in: true,
@@ -104,7 +105,7 @@ class App extends Component {
         <div className="bg">
           <Router>
             <Header
-              signed_in={this.state.logged_in}
+              logged_in={this.state.logged_in}
               display_popUp={this.display_popUp}
             />
             <Layout />
@@ -114,11 +115,11 @@ class App extends Component {
                 {this.popUp()} {/*every popup will be displayed here*/}
               </div>
             </div>
-            </Router>
-          </div>
-          <div className="Footer">
-            <Footer />
-          </div>
+          </Router>
+        </div>
+        <div className="Footer">
+          <Footer />
+        </div>
       </div>
     );
   }

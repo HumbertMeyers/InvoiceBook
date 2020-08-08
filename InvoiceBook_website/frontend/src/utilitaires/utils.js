@@ -48,9 +48,10 @@ req.open("GET", `${endpoint}${id}/`);
 req.addEventListener("readystatechange", function () {
     if (this.readyState === 4) {
     if (this.status === 200) {
+        console.log(this.responseText);
         let profile = JSON.parse(this.responseText)[0];
         document.getElementById("AfficheUserName").innerHTML =
-        "Welcome " + profile.firstName + " " + profile.lastName;
+        "Bonjour " + profile.nom;
     }
     else{
         localStorage.setItem('token',null);

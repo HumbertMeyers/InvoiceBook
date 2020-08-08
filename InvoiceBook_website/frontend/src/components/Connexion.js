@@ -41,9 +41,9 @@ class Connexion extends Component {
     req.addEventListener("readystatechange", function () {
       if (this.readyState === 4) {
         if (this.status === 200) {
-          let usr = JSON.parse(this.responseText);
-          let usr_id = usr[0].id_user;
-          let usr_token = usr[0].token;
+          let usr = JSON.parse(this.responseText)[0];
+          let usr_id = usr.user_id;
+          let usr_token = usr.token;
           document.getElementById("connexionError").innerHTML = "";
           self.props.handle_connexion(usr_id,usr_token);
           self.closePopUp();
@@ -68,7 +68,6 @@ class Connexion extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.loginAPIRequest(this.state.email, this.state.password);
-
   };
 
   render() {
@@ -95,6 +94,7 @@ class Connexion extends Component {
                 type="email"
                 className="FormField_Input"
                 name="email"
+                autoComplete="username"
                 placeholder="Entrez votre adresse mail"
                 value={this.state.email}
                 onChange={this.handleChange}
@@ -108,6 +108,7 @@ class Connexion extends Component {
                 type="password"
                 className="FormField_Input"
                 name="password"
+                autoComplete="current-password"
                 placeholder="Entrez votre mot de passe"
                 value={this.state.password}
                 onChange={this.handleChange}

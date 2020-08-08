@@ -74,7 +74,7 @@ function Header (props) {
 			      />{' '}
 		      InvoiceBook</Navbar.Brand>
 			    <Navbar.Text>
-			      Connecté en tant que : <span id="AfficheUserName" >Humbert</span>
+			      Connecté en tant que : <span id="AfficheUserName" ></span>
 			    </Navbar.Text>
 		      <Navbar.Toggle aria-controls="basic-navbar-nav" />
 		      <Navbar.Collapse id="basic-navbar-nav">
