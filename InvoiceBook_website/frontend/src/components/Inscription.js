@@ -7,8 +7,8 @@ import "./FormSign.css";
 
 const user_initState = {
   email: "",
-  lastName: "",
-  firstName: "",
+  last_name: "",
+  first_name: "",
   newPassword: "",
   confirmPassword: "",
   estOK: false,
@@ -49,7 +49,7 @@ class Inscription extends Component {
       if (this.readyState === 4) {
         if (this.status === 201) {
           let usr = JSON.parse(this.responseText)[0];
-          let usr_id = usr.id_user;
+          let usr_id = usr.id;
           let usr_token = usr.token;
           self.props.handle_connexion(usr_id,usr_token);
           self.closePopUp();
@@ -109,8 +109,9 @@ class Inscription extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     let data = {
-	    lastName: this.state.lastname,
-      firstName: this.state.firstname,
+	    last_name: this.state.last_name,
+      first_name: this.state.first_name,
+      username: this.state.email,
       email: this.state.email,
       password: this.state.newPassword,
     };
@@ -148,21 +149,21 @@ class Inscription extends Component {
                 onChange={this.handleChange}
               />
               <span className="error" id="email_error"></span>
-              <label className="FormField_Label" htmlFor="prenom">
+              <label className="FormField_Label" htmlFor="first_name">
                 {" "}
-                Préom{" "}
+                Prénom{" "}
               </label>
               <input
                 required
                 type="text"
                 className="FormField_Input"
-                name="prenom"
+                name="first_name"
                 autoComplete="given-name"
                 placeholder="Entrez votre prénom"
-                value={this.state.nom}
+                value={this.state.first_name}
                 onChange={this.handleChange}
               />
-              <label className="FormField_Label" htmlFor="nom">
+              <label className="FormField_Label" htmlFor="last_name">
                 {" "}
                 Nom{" "}
               </label>
@@ -170,10 +171,10 @@ class Inscription extends Component {
                 required
                 type="text"
                 className="FormField_Input"
-                name="nom"
+                name="last_name"
                 autoComplete="family-name"
                 placeholder="Entrez votre nom"
-                value={this.state.nom}
+                value={this.state.last_name}
                 onChange={this.handleChange}
               />
               <label className="FormField_Label" htmlFor="newPassword">

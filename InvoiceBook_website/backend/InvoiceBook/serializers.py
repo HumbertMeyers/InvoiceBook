@@ -9,13 +9,13 @@ from .models import *
 class UserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
-		fields = ('id_user', 'lastName', 'firstName', 'email', 'password')
+		fields = ('id', 'last_name', 'first_name', 'email', 'password')
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
-		fields = ('id_user', 'lastName', 'email')
+		fields = ('id', 'last_name', 'email')
 
 
 class UserLoginGetTokenSerializer(serializers.ModelSerializer):
@@ -26,13 +26,13 @@ class UserLoginGetTokenSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = User
-		fields = ('id_user', 'email', 'password', 'token')
+		fields = ('id', 'email', 'password', 'token')
 
 
 class NomSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
-		fields = ('lastName',)
+		fields = ('last_name',)
 
 
 ##########################################

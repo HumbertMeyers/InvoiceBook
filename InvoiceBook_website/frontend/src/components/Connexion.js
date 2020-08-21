@@ -6,7 +6,7 @@ import { api } from "../utilitaires/api.js";
 import "./FormSign.css";
 
 const user_initState = {
-  id: "",
+  user_id: "",
   email: "",
   password: "",
 };
@@ -42,7 +42,7 @@ class Connexion extends Component {
       if (this.readyState === 4) {
         if (this.status === 200) {
           let usr = JSON.parse(this.responseText)[0];
-          let usr_id = usr.user_id;
+          let usr_id = usr.id;
           let usr_token = usr.token;
           document.getElementById("connexionError").innerHTML = "";
           self.props.handle_connexion(usr_id,usr_token);

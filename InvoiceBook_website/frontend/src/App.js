@@ -37,7 +37,7 @@ class App extends Component {
             let user = this.responseText[0];
             console.log(user);
             self.setState({
-              user_id: user.id_user,
+              user_id: user.id,
               logged_in: true,
             });
             getUserProfileAPIRequest(userFromToken().id);

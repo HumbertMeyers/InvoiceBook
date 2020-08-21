@@ -51,7 +51,7 @@ req.addEventListener("readystatechange", function () {
         console.log(this.responseText);
         let profile = JSON.parse(this.responseText)[0];
         document.getElementById("AfficheUserName").innerHTML =
-        "Bonjour " + profile.nom;
+        "Bonjour " + profile.username;
     }
     else{
         localStorage.setItem('token',null);
