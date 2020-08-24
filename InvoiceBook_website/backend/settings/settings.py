@@ -28,7 +28,7 @@ SECRET_KEY = '^(5iu^n&69h-5on%2n#$2@f#p$-k5equid_fa6kzf%7!6l-_sc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['invoicebook.meyers.eu','192.168.1.72','127.0.0.1','localhost']
+ALLOWED_HOSTS = ['invoicebook.meyers.eu', '192.168.1.72', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['invoicebook.meyers.eu','192.168.1.72','127.0.0.1','localhost']
 INSTALLED_APPS = [
     'InvoiceBook',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,6 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+]
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 ]
 
 MIDDLEWARE = [
@@ -81,18 +88,18 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 AUTH_USER_MODEL = 'InvoiceBook.User'
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'InvoiceBook.customIsAuth.AllowAny',
+        'InvoiceBook.customIsAuth.IsAuthenticated',
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser",
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
         'InvoiceBook.customJWTAuth.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-    ),
+    ],
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
@@ -159,16 +166,16 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
 }
 
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 STATIC_URL = '/static/'
-#STATICFILES_DIRS = [
+
+
+# STATICFILES_DIRS = [
 #    os.path.join(BASE_DIR, 'build/static'),
-#]
-#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

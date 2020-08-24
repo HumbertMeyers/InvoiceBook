@@ -39,7 +39,7 @@ class Facture(models.Model):
 	
 	class Meta:
 		managed = True
-		db_table = 'Factures'
+		db_table = 'AjoutFactures'
 
 
 class UserFournisseur(models.Model):
@@ -70,4 +70,3 @@ class UserFacture(models.Model):
 	class Meta:
 		managed = True
 		db_table = 'UserFactures'
-

@@ -10,10 +10,6 @@ function AjoutFournisseur(props) {
 				</Col>
 				<br/>
 				<Form>
-					<Col>
-						<Form.Label><u>Personne de contact</u></Form.Label>
-					</Col>
-
 					<Form.Group>
 							<Form.Label>Nom de l'entreprise</Form.Label>
 							<Form.Control placeholder="Nom"/>
