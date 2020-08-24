@@ -120,7 +120,7 @@ class UsersViewSet(PermissionsPerMethodMixin, viewsets.GenericViewSet):
 		token = request.query_params.get('token')
 		try:
 			decoded_payload = jwt_decode_handler(token)
-			id_user = decoded_payload['id']
+			id_user = decoded_payload['user_id']
 			queryset = User.objects.filter(id=id_user)
 			if queryset:
 				serializer = UserLoginSerializer(queryset, many=True)
