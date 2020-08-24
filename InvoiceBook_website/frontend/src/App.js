@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from "react-router-dom";
 import './App.css';
 import Header from './components/Header.js';
 import Footer from './components/Footer.js';
 import Layout from './components/Layout.js';
 import Routes from './Routes.js';
 import tokenIsValid, {getUserProfileAPIRequest, userFromToken} from "./utilitaires/utils";
-import history from './utilitaires/historique';
+import historique from './utilitaires/historique';
 import { api } from './utilitaires/api';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Connexion from "./components/Connexion";
@@ -44,7 +43,7 @@ class App extends Component {
           }
           if (this.status === 404) {
             document.getElementById("AfficheUserName").innerHTML = "";
-            //history.push('/');
+            //historique.push('/');
           }
         }
       });
@@ -91,7 +90,7 @@ class App extends Component {
   handle_deconnexion = () => {
     localStorage.removeItem('token');
     document.getElementById("AfficheUserName").innerHTML = "";
-    history.push('/');
+    historique.push('/');
     window.location.reload();
     this.setState({
       user_id: 0,
@@ -103,19 +102,17 @@ class App extends Component {
     return (
       <div className="App">
         <div className="bg">
-          <Router>
-            <Header
-              logged_in={this.state.logged_in}
-              display_popUp={this.display_popUp}
-            />
-            <Layout />
-            <div className="Body">
-              <Routes/>
-              <div id="bodyContent">
-                {this.popUp()} {/*every popup will be displayed here*/}
-              </div>
+          <Header
+            logged_in={this.state.logged_in}
+            display_popUp={this.display_popUp}
+          />
+          <Layout />
+          <div className="Body" style={{textAlign: "center"}}>
+            <Routes/>
+            <div id="bodyContent">
+              {this.popUp()} {/*every popup will be displayed here*/}
             </div>
-          </Router>
+          </div>
         </div>
         <div className="Footer">
           <Footer />

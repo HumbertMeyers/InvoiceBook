@@ -1,5 +1,5 @@
 import React from 'react';
-import { Jumbotron as Jumbo, Container } from 'react-bootstrap';
+import {Jumbotron as Jumbo, Row, Col} from 'react-bootstrap';
 import styled from "styled-components";
 
 const Styles = styled.div`
@@ -20,6 +20,7 @@ const Styles = styled.div`
     bottom: 0;
     right: 0;
     z-index: -1;
+    justify-content: center;
   }
 `;
 
@@ -28,9 +29,15 @@ function Footer (){
 			<Styles>
 		    <Jumbo fluid className="jumbo">
 		      <div className="overlay"></div>
-		      <Container>
-		        &copy;{new Date().getFullYear()} InvoiceBook | All right reserved
-		      </Container>
+		      <div className="copyrights">
+			      <Row className="justify-content-md-center">
+				      <Col></Col>
+				      <Col md="auto">
+					      &copy;{new Date().getFullYear()} InvoiceBook | All right reserved
+				      </Col>
+				      <Col></Col>
+			      </Row>
+		      </div>
 		    </Jumbo>
 		  </Styles>
 		)

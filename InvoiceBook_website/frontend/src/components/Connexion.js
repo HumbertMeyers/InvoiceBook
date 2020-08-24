@@ -6,7 +6,7 @@ import { api } from "../utilitaires/api.js";
 import "./FormSign.css";
 
 const user_initState = {
-  user_id: "",
+  user_id: 0,
   email: "",
   password: "",
 };
@@ -39,19 +39,17 @@ class Connexion extends Component {
     req.open("GET", `${endpoint}${email}&pwd=${pwd}`);
 
     req.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        if (this.status === 200) {
-          let usr = JSON.parse(this.responseText)[0];
-          let usr_id = usr.id;
-          let usr_token = usr.token;
-          document.getElementById("connexionError").innerHTML = "";
-          self.props.handle_connexion(usr_id,usr_token);
-          self.closePopUp();
-        }
-        if (this.status === 404) {
+      if (this.readyState === 4 && this.status === 200) {
+        let usr = JSON.parse(this.responseText)[0];
+        let usr_id = usr.id;
+        let usr_token = usr.token;
+        document.getElementById("connexionError").innerHTML = "";
+        self.props.handle_connexion(usr_id,usr_token);
+        self.closePopUp();
+      }
+      if (this.status === 404) {
 
-          document.getElementById("connexionError").innerHTML = "Une erreur de connexion s'est produite, vérifiez vos identifiants";
-        }
+        document.getElementById("connexionError").innerHTML = "Une erreur de connexion s'est produite, vérifiez vos identifiants";
       }
     });
 

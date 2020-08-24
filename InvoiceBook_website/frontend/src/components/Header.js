@@ -4,6 +4,7 @@ import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 import logo from "../assets/logo.svg";
 import styled from 'styled-components';
+import {Link} from "react-router-dom";
 
 const Styles = styled.div`
   .navbar {
@@ -45,8 +46,8 @@ function Header (props) {
 		      <Navbar.Toggle aria-controls="basic-navbar-nav" />
 		      <Navbar.Collapse id="basic-navbar-nav">
 		        <Nav className="ml-auto">
-	            <Nav.Link href="/">Home</Nav.Link>
-		          <Nav.Link href="/Help">Help</Nav.Link>
+	            <Nav.Link as={Link} to="/">Home</Nav.Link>
+		          <Nav.Link as={Link} to="Help">Help</Nav.Link>
 	            <Nav.Link id="Connexion">
 					      <span onClick={() => props.display_popUp("Connexion")}>Connexion</span>
 				      </Nav.Link>
@@ -72,25 +73,26 @@ function Header (props) {
 			        height="30"
 			        className="d-inline-block align-top"
 			      />{' '}
-		      InvoiceBook</Navbar.Brand>
+		        InvoiceBook
+		      </Navbar.Brand>
 			    <Navbar.Text>
 			      Connecté en tant que : <span id="AfficheUserName" ></span>
 			    </Navbar.Text>
 		      <Navbar.Toggle aria-controls="basic-navbar-nav" />
 		      <Navbar.Collapse id="basic-navbar-nav">
-				    <Nav className="ml-auto">
-					    <Nav.Link href="/">Home</Nav.Link>
-					    <Nav.Link href="/Help">Help</Nav.Link>
+				    <Nav variant="pills" defaultActiveKey="1" className="ml-auto">
+					    <Nav.Link eventKey="1" as={Link} to="/">Home</Nav.Link>
+					    <Nav.Link eventKey="2" as={Link} to="Help">Help</Nav.Link>
 				      <NavDropdown title="Menu" id="collasible-nav-dropdown">
-				        <NavDropdown.Item href="/AjoutFacture">Ajouter une nouvelle Facture</NavDropdown.Item>
-				        <NavDropdown.Item href="/RechercheFacture">Recherche d'une facture</NavDropdown.Item>
+				        <NavDropdown.Item eventKey="3.1" as={Link} to="AjoutFacture">Ajouter une nouvelle Facture</NavDropdown.Item>
+				        <NavDropdown.Item eventKey="3.2" as={Link} to="RechercheFacture">Recherche d'une facture</NavDropdown.Item>
 					      <NavDropdown.Divider />
-			          <NavDropdown.Item href="/Clients">Clients</NavDropdown.Item>
-				        <NavDropdown.Item href="/Fournisseurs">Fournisseurs</NavDropdown.Item>
+			          <NavDropdown.Item eventKey="3.3" as={Link} to="Clients">Clients</NavDropdown.Item>
+				        <NavDropdown.Item eventKey="3.4" as={Link} to="Fournisseurs">Fournisseurs</NavDropdown.Item>
 					      <NavDropdown.Divider />
-					      <NavDropdown.Item href="/Resume">Résumé de la période</NavDropdown.Item>
+					      <NavDropdown.Item eventKey="3.5" as={Link} to="Resume">Résumé de la période</NavDropdown.Item>
 				      </NavDropdown>
-				      <Nav.Link href="/Profil">Profil</Nav.Link>
+				      <Nav.Link eventKey="4" as={Link} to="Profil">Profil</Nav.Link>
 				      <Nav.Link id="Deconnexion">
 					      <span onClick={() => props.display_popUp("Deconnexion")}>Déconnexion</span>
 				      </Nav.Link>

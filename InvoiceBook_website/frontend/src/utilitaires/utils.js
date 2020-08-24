@@ -1,5 +1,5 @@
 import jwt_decode from 'jwt-decode';
-import history from "./historique";
+import historique from "./historique";
 import { api } from "./api";
 
 export default function tokenIsValid() {
@@ -27,13 +27,13 @@ export function userFromToken() {
         let token =localStorage.getItem('token');
         let decodedToken = jwt_decode(token);
         let user = {
-            id : decodedToken.user_id,
+            id : decodedToken.id,
             email : decodedToken.email,
             token : token,
         }
         return user;
     }
-    history.push('/');
+    historique.push('/');
     window.location.reload();
     return null;
 };
@@ -51,7 +51,7 @@ req.addEventListener("readystatechange", function () {
         console.log(this.responseText);
         let profile = JSON.parse(this.responseText)[0];
         document.getElementById("AfficheUserName").innerHTML =
-        "Bonjour " + profile.username;
+        profile.first_name + " " + profile.last_name;
     }
     else{
         localStorage.setItem('token',null);

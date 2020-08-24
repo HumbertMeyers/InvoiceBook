@@ -1,8 +1,7 @@
 .App {
   font-family: "Abel", sans-serif;
   font-size: calc(10px + 1vmin);
-  color: white;
-
+  color: black;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -10,11 +9,11 @@
 
 .bg {
   /*Bg generated with: https://cssgradient.io */
-  background: rgb(9, 164, 247);
+  background: #bbe2ec;
   background: linear-gradient(
     15deg,
-    rgb(67, 95, 155) 50%,
-    rgb(119, 45, 45) 18%
+    #bbe2ec 50%,
+    #76a6a6 18%
   );
   min-height: 100vh;
 }
