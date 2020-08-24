@@ -53,9 +53,9 @@ function AjoutFournisseur(props) {
 							<Form.Control placeholder="Nom"/>
 						</Col>
 					</Form.Row>
-					<Form.Group as ={Col}>
+					<Form.Group>
 						<Form.Label>Adresse mail</Form.Label>
-						<Form.Control placeholder="email@example.com"/>
+						<Form.Control placeholder="email@example.com" type="email"/>
 					</Form.Group>
 
 					<br/>
