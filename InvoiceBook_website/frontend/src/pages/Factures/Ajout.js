@@ -22,7 +22,7 @@ function AjoutFacture(props) {
 
   return (
   	<Container>
-	    <Tabs defaultActiveKey="factureIn" id="uncontrolled-tab-facture">
+	    <Tabs variant="pills" defaultActiveKey="factureIn" id="uncontrolled-tab-facture" >
 	      <Tab eventKey="factureIn" title="Facture Entrante">
 	        <div> {factureIn} </div>
 	      </Tab>
