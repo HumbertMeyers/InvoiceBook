@@ -1,12 +1,13 @@
 import json
-from math import atan2, cos, radians, sin, sqrt
-from os.path import defpath
+from os import mkdir
 
 import bcrypt
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import update_last_login
 from django.db import IntegrityError
 from django.db.models import CharField, Value
 from django.http import QueryDict
-from rest_framework import permissions, status, viewsets
+from rest_framework import status, viewsets
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
@@ -15,6 +16,7 @@ from rest_framework_jwt.utils import jwt_decode_handler
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from .models import *
 from .serializers import *
+from settings.settings import MEDIA_ROOT
 
 
 class PermissionsPerMethodMixin(object):
@@ -64,8 +66,9 @@ class UsersViewSet(PermissionsPerMethodMixin, viewsets.GenericViewSet):
 		data = request.data.copy()
 		data['password'] = bcrypt.hashpw(data['password'].encode('utf8'), bcrypt.gensalt())
 		data['password'] = data['password'].decode('utf8')
-		serializer = UserSerializer(data=data)
-		serializer.is_valid(raise_exception=True)
+		serializer = User.objects.create_user(data['username'], data['email'], data['password'])
+		serializer.last_name = data['last_name']
+		serializer.first_name = data['first_name']
 		try:
 			serializer.save()
 			queryset = User.objects.filter(email=data['email'])
@@ -73,7 +76,10 @@ class UsersViewSet(PermissionsPerMethodMixin, viewsets.GenericViewSet):
 			user.token = self.create_token(user)
 			queryset = set()
 			queryset.add(user)
+			group = Group.objects.get(name='IsAuthenticated')
+			user.groups.add(group)
 			serializer = UserLoginGetTokenSerializer(queryset, many=True)
+			mkdir(MEDIA_ROOT+"/"+user.username)
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		except IntegrityError as exception:
 			if "unique_email" in str(exception):
@@ -104,6 +110,7 @@ class UsersViewSet(PermissionsPerMethodMixin, viewsets.GenericViewSet):
 				queryset = set()
 				queryset.add(user)
 				serializer = UserLoginGetTokenSerializer(queryset, many=True)
+				update_last_login(self, user=user)
 				return Response(serializer.data)
 			else:
 				error = "Mauvaises information de connexion pour : %s" % email

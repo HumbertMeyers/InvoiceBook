@@ -28,7 +28,6 @@ class UserLoginGetTokenSerializer(serializers.ModelSerializer):
 		model = User
 		fields = ('id', 'email', 'password', 'token')
 
-
 class NomSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User

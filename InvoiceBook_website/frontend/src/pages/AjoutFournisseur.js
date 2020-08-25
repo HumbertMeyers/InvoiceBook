@@ -18,6 +18,10 @@ function AjoutFournisseur(props) {
 							<Form.Label>Numéro de TVA</Form.Label>
 							<Form.Control placeholder="Numéro de TVA"/>
 					</Form.Group>
+					<Form.Group>
+							<Form.Label>Numéro de compte banquaire</Form.Label>
+							<Form.Control placeholder="Numéro IBAN"/>
+					</Form.Group>
 
 					<Form.Group controlId="formGridAdresse">
 						<Form.Label>Adresse</Form.Label>
