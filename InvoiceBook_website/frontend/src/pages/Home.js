@@ -1,6 +1,8 @@
 import React from 'react';
-import { Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import styled from 'styled-components';
+import PropTypes from "prop-types";
+import Header from "../components/Header";
 
 const Styles = styled.div(`
 	.Home {
@@ -16,38 +18,32 @@ const Styles = styled.div(`
 function Home() {
 	return (
 		<Styles>
-		  <div className="Home">
-			  <div id="homeWrapper" className="justify-content-center" >
+		  <Container className="Home">
+			  <div id="homeWrapper">
 				  <br />
-				  <Col md={{ span: 6, offset: 3 }}>
-					  <Card body >
-						  <Row >
-							  <div className="h1">
-								  Bienvenue
-							  </div>
-						  </Row>
-						  <Row>
-							  <div className="h4">
-									  <span id="AfficheUserName" ><br /></span>
-							  </div>
-						  </Row>
-						  <Row>
-							  <br /><br />
-							  <div className="text">
-								  Vous voici sur la page de garde de InvoiceBook. <br/>
-								  L'application web pour gérer en simplicité vos factures.
-							  </div>
-						  </Row>
-						  <br />
-						  <Row>
-							  <div>
-								  Si vous vous demandez comment utiliser cet outils, c'est bien simple, cliquez sur help
-							  </div>
-						  </Row>
-					  </Card>
+				  <Col md={{ span: 8, offset: 2 }}>
+					  <Row >
+						  <div className="h1">
+							  Bienvenue
+						  </div>
+					  </Row>
+					  <Row>
+						  <div className="h5">
+							  <span id="AfficheUserName" ><br /></span>
+						  </div>
+					  </Row>
+					  <Row>
+						  <br /><br />
+						  Vous voici sur InvoiceBook. <br/>
+						  L'application web pour gérer en simplicité vos factures.
+					  </Row>
+					  <br />
+					  <Row>
+						  Si vous vous demandez comment utiliser cet outils, c'est bien simple, cliquez sur help
+					  </Row>
 				  </Col>
 			  </div>
-      </div>
+      </Container>
 		</Styles>
 	);
 }

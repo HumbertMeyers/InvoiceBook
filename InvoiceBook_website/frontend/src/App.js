@@ -59,6 +59,7 @@ class App extends Component {
   display_popUp = (type) => {
     this.setState({ show_popUp: type });
   };
+
   popUp = () => {
     let p;
     switch (this.state.show_popUp) {
@@ -108,15 +109,13 @@ class App extends Component {
           />
           <Layout />
           <div className="Body" style={{textAlign: "center"}}>
-            <Routes/>
+            <Routes username={this.state.username}/>
             <div id="bodyContent">
               {this.popUp()} {/*every popup will be displayed here*/}
             </div>
           </div>
         </div>
-        <div className="Footer">
           <Footer />
-        </div>
       </div>
     );
   }

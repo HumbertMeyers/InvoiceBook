@@ -7,7 +7,7 @@ function AjoutClient() {
 		<div className="AjoutClient">
 			<Container className="principal">
 				<Col>
-					<Row>Ajout d'un Client</Row>
+					<Row>Ajout d'un client</Row>
 				</Col>
 				<br/>
 				<Form>

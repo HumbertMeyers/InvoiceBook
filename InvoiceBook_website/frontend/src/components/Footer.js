@@ -9,7 +9,8 @@ const Styles = styled.div`
     color: #efefef;
     height: 100px;
     position: relative;
-    z-index: -2;
+    z-index: 0;
+    margin-bottom: 0 !important;
   }
   .overlay {
     background-color: #000;

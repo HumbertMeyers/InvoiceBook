@@ -6,7 +6,7 @@ function AjoutFournisseur(props) {
 		<div className="AjoutFournisseur">
 			<Container className="principal">
 				<Col>
-					<Row>Ajout d'un Fournisseur</Row>
+					<Row>Ajout d'un fournisseur</Row>
 				</Col>
 				<br/>
 				<Form>

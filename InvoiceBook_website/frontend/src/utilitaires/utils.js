@@ -46,8 +46,7 @@ let req = new api();
 req.open("GET", `${endpoint}${id}/`);
 
 req.addEventListener("readystatechange", function () {
-    if (this.readyState === 4) {
-    if (this.status === 200) {
+    if (this.readyState === 4 && this.status === 200) {
         console.log(this.responseText);
         let profile = JSON.parse(this.responseText)[0];
         document.getElementById("AfficheUserName").innerHTML =
@@ -56,7 +55,6 @@ req.addEventListener("readystatechange", function () {
     else{
         localStorage.setItem('token',null);
         window.location.reload();
-    }
     }
 });
 

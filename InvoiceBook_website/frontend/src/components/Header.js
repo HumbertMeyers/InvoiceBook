@@ -19,6 +19,9 @@ const Styles = styled.div`
 	.dropdown-menu .dropdown-item{
     color: #222;
   }
+  .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+	}
   .dropdown-item:hover {
     background-color: #888;
     color: #eee;
@@ -45,9 +48,9 @@ function Header (props) {
 			    </Navbar.Text>
 		      <Navbar.Toggle aria-controls="basic-navbar-nav" />
 		      <Navbar.Collapse id="basic-navbar-nav">
-		        <Nav className="ml-auto">
-	            <Nav.Link as={Link} to="/">Home</Nav.Link>
-		          <Nav.Link as={Link} to="Help">Help</Nav.Link>
+		        <Nav  variant="pills" defaultActiveKey="1" className="ml-auto">
+	            <Nav.Link eventKey="1" as={Link} to="/">Home</Nav.Link>
+		          <Nav.Link eventKey="2" as={Link} to="Help">Help</Nav.Link>
 	            <Nav.Link id="Connexion">
 					      <span onClick={() => props.display_popUp("Connexion")}>Connexion</span>
 				      </Nav.Link>
