@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from 'styled-components';
-import {Col, Row} from "react-bootstrap";
+import {Container, Col, Row} from "react-bootstrap";
 
 const Styles = styled.div(`
 	.Help {
@@ -18,30 +18,20 @@ class Help extends Component {
   render() {
     return (
     	<Styles>
-		    <div className="Help">
-	        <div id="HelpWrapper">
-					  <br />
-					  <Col md={{ offset: 3 }}>
-
-						  <Row>
-							  <div className="h2">
-								  Help
-							  </div>
-						  </Row>
-						  <Row>
-							  <div className="h4">
-									  <br />
-							  </div>
-						  </Row>
-						  <Row>
-							  <br /><br />
-							  <div className="text">
-								  Page en cours de construction.
-							  </div>
-						  </Row>
-					  </Col>
-	        </div>
-	      </div>
+		    <Container className="Help">
+				  <Col md={{ offset: 3, span: 6 }}>
+					  <Row><br/></Row>
+					  <Row>
+						  <h1>
+							  Help
+						  </h1>
+					  </Row>
+					  <Row><br/></Row>
+					  <Row>
+					    Page en cours de construction.
+					  </Row>
+				  </Col>
+	      </Container>
     	</Styles>
     );
   }
