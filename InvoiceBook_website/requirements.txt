@@ -15,6 +15,8 @@ django-cors-headers==3.4.0
 django-csp==3.6
 django-feature-policy==3.4.0
 django-filter==2.3.0
+django-internationalflavor==0.4.0
+django-localflavor==3.0.1
 django-referrer-policy==1.0
 djangorestframework==3.11.1
 djangorestframework-jwt==1.11.0
@@ -46,6 +48,7 @@ pyparsing==2.4.7
 pytest==6.0.1
 pytest-cov==2.10.0
 pytest-django==3.9.0
+python-stdnum==1.14
 pytz==2020.1
 six==1.15.0
 sqlparse==0.3.1

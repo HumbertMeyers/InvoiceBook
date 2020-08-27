@@ -28,14 +28,7 @@ SECRET_KEY = '^(5iu^n&69h-5on%2n#$2@f#p$-k5equid_fa6kzf%7!6l-_sc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'invoicebook.meyers.eu',
-    '192.168.1.79',
-    '192.168.1.2',
-    '192.168.1.3',
-    '127.0.0.1',
-    'localhost',
-]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

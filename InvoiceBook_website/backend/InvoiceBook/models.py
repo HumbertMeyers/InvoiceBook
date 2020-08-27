@@ -20,7 +20,7 @@ class Fournisseur(models.Model):
 	country = CountryField(default="BE")
 	street = models.CharField(max_length=100, default='')
 	city = models.CharField(max_length=45, default='')
-	postcode = models.IntegerField(default=1234)
+	postcode = models.IntegerField(blank=True, null=True)
 	contact_lastname = models.CharField(max_length=45, blank=True, null=True)
 	contact_firstname = models.CharField(max_length=45, blank=True, null=True)
 	email = models.EmailField(max_length=256, blank=True, null=True)
@@ -33,18 +33,19 @@ class Fournisseur(models.Model):
 
 class Client(models.Model):
 	id_client = models.AutoField(primary_key=True)
-	name = models.CharField(max_length=45, default='')
+	firstname = models.CharField(max_length=45, default='')
+	lastname = models.CharField(max_length=45, default='')
 	country = CountryField(default="BE")
 	company_name = models.CharField(max_length=45, blank=True, null=True)
 	TVA_number = VATNumberField(default="BE0000000000", eu_only=True, blank=True, null=True)
 	street = models.CharField(max_length=100, blank=True, null=True)
 	city = models.CharField(max_length=45, blank=True, null=True)
-	postcode = models.IntegerField(default=1234)
+	postcode = models.IntegerField(blank=True, null=True)
 	
 	class Meta:
 		managed = True
 		db_table = 'Clients'
-		unique_together = (('name', 'TVA_number'),)
+		unique_together = (('firstname', 'lastname', 'TVA_number'),)
 
 
 class Facture(models.Model):

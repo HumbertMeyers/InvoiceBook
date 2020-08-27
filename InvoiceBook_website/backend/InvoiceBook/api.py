@@ -13,7 +13,7 @@ from rest_framework_jwt.utils import jwt_decode_handler
 
 from .serializers import *
 from .permissions import IsLoggedInUserOrAdmin, IsAdminUser
-from invoicebook_website.backend.settings.settings import BASE_DIR
+from settings.settings import BASE_DIR
 
 
 #######################
@@ -90,7 +90,7 @@ class UserViewSet(viewsets.ViewSet):
 				error = "This email address already exist"
 			return Response({'error': error}, status=status.HTTP_409_CONFLICT)
 	
-	# GET 127.0.0.1:8000/api/users/login/?email=john.doe@gmail.com&pwd=testpwd1
+	# GET 127.0.0.1:8000/api/users/login/?email=john.smith@gmail.com&pwd=azertyui
 	@action(detail=False, methods=['get'])
 	def login(self, request, *args, **kwargs):
 		""" AUTHENTICATE AN USER W/O TOKEN """
@@ -111,8 +111,12 @@ class UserViewSet(viewsets.ViewSet):
 			else:
 				error = "Credential error : your username or password may be wrong"
 				return Response({'error': error}, status=status.HTTP_401_UNAUTHORIZED)
+		else:
+			error = "Credential error : your username or password may be wrong"
+			return Response({'error': error}, status=status.HTTP_401_UNAUTHORIZED)
+			
 
-	# GET 127.0.0.1:8000/api/users/login_token/?token=dghffgnndsklskjskff
+	# GET 127.0.0.1:8000/api/users/login_token/?token=klzjehflzfhnqlkfzefqzfghref
 	@action(detail=False, methods=['get'])
 	def login_token(self, request, *args, **kwargs):
 		""" AUTHENTICATE AN USER W/ TOKEN """
@@ -183,3 +187,16 @@ class UserViewSet(viewsets.ViewSet):
 			serializer.is_valid(raise_exception=True)
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+#######################
+###   INVOICE API   ###
+
+class FactureViewSet(viewsets.ViewSet):
+	
+	# GET 127.0.0.1:8000/api/tools/
+	def list(self, request, *args, **kwargs):
+		"""" list all tools """
+		queryset = Facture.objects.all()
+		serializer = FactureSerializer(queryset, many=True)
+		return Response(serializer.data)

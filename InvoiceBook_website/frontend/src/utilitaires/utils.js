@@ -41,10 +41,11 @@ export function getUserProfileAPIRequest(id, callback) {
     let endpoint = `/api/users/${id}/`;
     let input;
     input = masterURL(endpoint, "json", "GET");
-
     fetch(input)
-    .then((response) => {
-				response.json()
+    .then(function response() {
+        let profile = JSON.parse(response)[0];
+        console.log(profile);
+        callback(profile.first_name + " " + profile.last_name);
     })
     .catch(function(err){
       localStorage.setItem('token',null);

@@ -87,10 +87,7 @@ class App extends Component {
       logged_in: true,
     }, () => {
       historique.push('/');
-      window.location.reload();
     });
-
-
   };
 
   handle_deconnexion = () => {

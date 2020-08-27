@@ -42,13 +42,10 @@ class Connexion extends Component {
         let usr = JSON.parse(this.responseText)[0];
         let usr_id = usr.id;
         let usr_token = usr.token;
-        
-        document.getElementById("connexionError").innerHTML = "";
         self.props.handle_connexion(usr_id,usr_token);
         self.closePopUp();
       }
       if (this.status === 404) {
-
         document.getElementById("connexionError").innerHTML = "Une erreur de connexion s'est produite, vérifiez vos identifiants";
       }
     });
