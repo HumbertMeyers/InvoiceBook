@@ -16,6 +16,10 @@ from .permissions import IsLoggedInUserOrAdmin, IsAdminUser
 from settings.settings import BASE_DIR
 
 
+class TestViewSet(viewsets.ViewSet):
+	def test(self):
+		return "coucou"
+
 #######################
 ###    USERS API    ###
 
