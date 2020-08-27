@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Container, Table, Row, Col, Form, FormControl} from "react-bootstrap";
+import PDFIcon from "../../assets/pdf-icon.png"
 
 class RechercheFacture extends Component{
 	constructor() {
@@ -74,6 +75,24 @@ class RechercheFacture extends Component{
 					    <th>Edition</th>
 				    </tr>
 				  </thead>
+					<tbody>
+					<tr>
+						<td>1</td>
+						<td>01/01/2020</td>
+						<td>SomeClient</td>
+						<td>126,6€</td>
+						<td><img src={PDFIcon} height="20px" alt="telecharger pdf"/></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td><img src={PDFIcon} height="20px" alt="telecharger pdf"/></td>
+						<td></td>
+					</tr>
+					</tbody>
 				</Table>
 			</Container>
 		)

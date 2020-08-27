@@ -19,6 +19,7 @@ class App extends Component {
       logged_in: false,
       user_id: 0,
       show_popUp: "",
+      afficheNom: "",
     };
   }
 
@@ -80,19 +81,21 @@ class App extends Component {
 
   handle_connexion = (u_id, u_token) => {
     localStorage.setItem('token',u_token);
-    getUserProfileAPIRequest(userFromToken().id);
+    getUserProfileAPIRequest(userFromToken().id, (text)=> this.setState({afficheNom: text} ));
     this.setState({
       user_id: u_id,
       logged_in: true,
+    }, () => {
+      historique.push('/');
+      window.location.reload();
     });
-    window.location.reload();
+
+
   };
 
   handle_deconnexion = () => {
     localStorage.removeItem('token');
-    document.getElementById("AfficheUserName").innerHTML = "";
     historique.push('/');
-    window.location.reload();
     this.setState({
       user_id: 0,
       logged_in: false,
@@ -106,10 +109,13 @@ class App extends Component {
           <Header
             logged_in={this.state.logged_in}
             display_popUp={this.display_popUp}
+            afficheNom={this.state.afficheNom}
           />
           <Layout />
           <div className="Body" style={{textAlign: "center"}}>
-            <Routes username={this.state.username}/>
+            <Routes
+              user_id={this.state.user_id}
+            />
             <div id="bodyContent">
               {this.popUp()} {/*every popup will be displayed here*/}
             </div>

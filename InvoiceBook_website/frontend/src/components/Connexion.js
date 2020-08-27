@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { Modal } from "react-bootstrap";
 import { api } from "../utilitaires/api.js";
 
@@ -43,6 +42,7 @@ class Connexion extends Component {
         let usr = JSON.parse(this.responseText)[0];
         let usr_id = usr.id;
         let usr_token = usr.token;
+        
         document.getElementById("connexionError").innerHTML = "";
         self.props.handle_connexion(usr_id,usr_token);
         self.closePopUp();
@@ -136,8 +136,3 @@ class Connexion extends Component {
 }
 
 export default Connexion;
-
-Connexion.propTypes = {
-  showPopUp: PropTypes.bool.isRequired,
-  handle_connexion: PropTypes.func.isRequired,
-};

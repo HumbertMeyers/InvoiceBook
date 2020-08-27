@@ -6,6 +6,29 @@ let uri = "http://127.0.0.1";
 let port = 8000;
 let isInDev = require('./production.json').Dev;
 
+export function masterURL(endpoint, type, method) {
+  let options = {
+        method: method,
+        headers: {},
+        mode: 'cors'
+    };
+
+  if(isInDev) {
+      return `${uri}:${port}${endpoint}`
+  }else {
+    return `${uri}${endpoint}`
+  }
+
+  if (type === "json") {
+      options.headers += `"Content-Type":"application/json;charset=UTF-8",`;
+  } else if (type === "formData") {}
+
+  if(tokenIsValid()){
+    options.headers += `"Authorization":"JWT " + userFromToken().token,`;
+  }
+
+}
+
 export class api {
   constructor() {
     this.xhr = new XMLHttpRequest();

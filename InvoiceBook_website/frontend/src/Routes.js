@@ -21,7 +21,9 @@ class Routes extends Component {
         <Route exact path="/Contact" component={Contact} />
         <Route exact path="/About" component={About} />
         <Route exact path="/Clients" component={AjoutClient} />
-        <Route exact path="/AjoutFacture" component={AjoutFacture} />
+        <Route exact path="/AjoutFacture" component={AjoutFacture}
+          user_id={this.props.user_id}
+        />
         <Route exact path="/RechercheFactures" component={RechercheFacture} />
         <Route exact path="/Fournisseurs" component={AjoutFournisseur} />
         <Route render={function () {

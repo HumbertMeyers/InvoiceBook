@@ -28,23 +28,29 @@ SECRET_KEY = '^(5iu^n&69h-5on%2n#$2@f#p$-k5equid_fa6kzf%7!6l-_sc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['invoicebook.meyers.eu', '192.168.1.72', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    'invoicebook.meyers.eu',
+    '192.168.1.79',
+    '192.168.1.2',
+    '192.168.1.3',
+    '127.0.0.1',
+    'localhost',
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'InvoiceBook',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'InvoiceBook',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 PASSWORD_HASHERS = [
@@ -70,7 +76,7 @@ ROOT_URLCONF = 'settings.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'builds')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -202,8 +208,8 @@ JWT_AUTH = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 STATIC_URL = '/static/'
 
 

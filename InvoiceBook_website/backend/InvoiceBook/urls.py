@@ -1,11 +1,11 @@
 from django.urls import include, path
 from rest_framework import routers
 from . import views
-from . import apis
+from . import api
 
 
 router = routers.DefaultRouter()
-router.register(r'users', apis.UsersViewSet, basename='users')
+router.register(r'users', api.UserViewSet, basename='users')
 #router.register(r'factures', apis.FacturesViewSet, basename='factures')
 #router.register(r'clients', apis.ClientsViewSet, basename='clients')
 #router.register(r'fournisseurs', apis.FournisseursViewSet, basename='fournisseurs')

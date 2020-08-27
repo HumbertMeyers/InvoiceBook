@@ -50,7 +50,7 @@ def index(request):
 						<br><br>
 						<section id="links">
 							Click <a href="https://documenter.getpostman.com/">here</a> to check our API or
-							<a href="http://127.0.0.1:8000/admin">here</a> to login as admin.
+							<a href="http://127.0.0.1:8000/admin/">here</a> to login as admin.
 						</section>
 					</div>
 					<img src="/media/work-in-progress-icon.png" />

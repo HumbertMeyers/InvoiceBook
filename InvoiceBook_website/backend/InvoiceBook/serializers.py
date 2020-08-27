@@ -47,7 +47,7 @@ class FournisseurSerializer(serializers.ModelSerializer):
 class UserFournisseurSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = UserFournisseur
-		fields = ('id_user', 'id_fournisseur')
+		fields = ('id_fournisseur',)
 
 
 class UserFournisseurDetailSerializer(serializers.ModelSerializer):

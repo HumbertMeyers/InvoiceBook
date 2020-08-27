@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 import logo from "../assets/logo.svg";
@@ -79,7 +78,7 @@ function Header (props) {
 		        InvoiceBook
 		      </Navbar.Brand>
 			    <Navbar.Text>
-			      Connecté en tant que : <span id="AfficheUserName" ></span>
+			      Connecté en tant que : <span id="AfficheUserName" >{props.afficheNom}</span>
 			    </Navbar.Text>
 		      <Navbar.Toggle aria-controls="basic-navbar-nav" />
 		      <Navbar.Collapse id="basic-navbar-nav">
@@ -88,7 +87,7 @@ function Header (props) {
 					    <Nav.Link eventKey="2" as={Link} to="Help">Help</Nav.Link>
 				      <NavDropdown title="Menu" id="collasible-nav-dropdown">
 				        <NavDropdown.Item eventKey="3.1" as={Link} to="AjoutFacture">Ajouter une nouvelle Facture</NavDropdown.Item>
-				        <NavDropdown.Item eventKey="3.2" as={Link} to="RechercheFacture">Recherche d'une facture</NavDropdown.Item>
+				        <NavDropdown.Item eventKey="3.2" as={Link} to="RechercheFactures">Recherche d'une facture</NavDropdown.Item>
 					      <NavDropdown.Divider />
 			          <NavDropdown.Item eventKey="3.3" as={Link} to="Clients">Clients</NavDropdown.Item>
 				        <NavDropdown.Item eventKey="3.4" as={Link} to="Fournisseurs">Fournisseurs</NavDropdown.Item>
@@ -110,8 +109,3 @@ function Header (props) {
 }
 
 export default Header;
-
-Header.propTypes = {
-  logged_in: PropTypes.bool.isRequired,
-  display_popUp: PropTypes.func.isRequired,
-};

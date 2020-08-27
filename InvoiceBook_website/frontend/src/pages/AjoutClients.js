@@ -24,12 +24,12 @@ function AjoutClient() {
 					</Form.Row>
 
 					<Form.Group controlId="Pays">
-						<Form.Label>Adresse 1</Form.Label>
+						<Form.Label>Pays</Form.Label>
 						<Form.Control placeholder="Pays"/>
 					</Form.Group>
 
 					<Col>
-						<Form.Label><u>Informations de l'entreprise</u></Form.Label>
+						<Form.Label><u>Informations de l'entreprise (si professionnel)</u></Form.Label>
 					</Col>
 
 					<Form.Group>
@@ -42,13 +42,8 @@ function AjoutClient() {
 					</Form.Group>
 
 					<Form.Group controlId="formGridAddress1">
-						<Form.Label>Adresse 1</Form.Label>
+						<Form.Label>Adresse</Form.Label>
 						<Form.Control placeholder="1234 Main St"/>
-					</Form.Group>
-
-					<Form.Group controlId="formGridAddress2">
-						<Form.Label>Adresse 2</Form.Label>
-						<Form.Control placeholder="Apartment, studio, or floor"/>
 					</Form.Group>
 
 					<Form.Row>

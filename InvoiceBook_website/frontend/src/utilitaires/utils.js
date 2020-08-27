@@ -1,6 +1,5 @@
 import jwt_decode from 'jwt-decode';
-import historique from "./historique";
-import { api } from "./api";
+import { api, masterURL } from "./api"
 
 export default function tokenIsValid() {
     try {
@@ -24,39 +23,49 @@ export default function tokenIsValid() {
 export function userFromToken() {
 
     if(tokenIsValid()){
-        let token =localStorage.getItem('token');
+        let token = localStorage.getItem('token');
         let decodedToken = jwt_decode(token);
         let user = {
-            id : decodedToken.id,
+            id : decodedToken.user_id,
             email : decodedToken.email,
             token : token,
         }
         return user;
     }
-    historique.push('/');
-    window.location.reload();
+    //historique.push('/');
     return null;
 };
 
 
-export function getUserProfileAPIRequest(id) {
-let endpoint = "/api/user/";
+export function getUserProfileAPIRequest(id, callback) {
+    let endpoint = `/api/users/${id}/`;
+    let input;
+    input = masterURL(endpoint, "json", "GET");
 
-let req = new api();
-req.open("GET", `${endpoint}${id}/`);
+    fetch(input)
+    .then((response) => {
+				response.json()
+    })
+    .catch(function(err){
+      localStorage.setItem('token',null);
+    });
 
-req.addEventListener("readystatechange", function () {
-    if (this.readyState === 4 && this.status === 200) {
-        console.log(this.responseText);
-        let profile = JSON.parse(this.responseText)[0];
-        document.getElementById("AfficheUserName").innerHTML =
-        profile.first_name + " " + profile.last_name;
-    }
-    else{
-        localStorage.setItem('token',null);
-        window.location.reload();
-    }
-});
+    //callback = json.first_name + " " + json.last_name
 
-req.send();
+    /*
+    let req = new api();
+    req.open("GET", `${endpoint}${id}/`);
+
+    req.addEventListener("readystatechange", function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let profile = JSON.parse(this.responseText)[0];
+            callback(profile.first_name + " " + profile.last_name);
+        }
+        else{
+            localStorage.setItem('token',null);
+        }
+    });
+
+    req.send();
+    */
 }

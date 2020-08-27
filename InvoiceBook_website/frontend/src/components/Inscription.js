@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { Modal } from "react-bootstrap";
 import { api } from "../utilitaires/api.js";
 
@@ -245,8 +244,3 @@ class Inscription extends Component {
 }
 
 export default Inscription;
-
-Inscription.propTypes = {
-  showPopUp: PropTypes.bool.isRequired,
-  handle_connexion: PropTypes.func.isRequired,
-};
