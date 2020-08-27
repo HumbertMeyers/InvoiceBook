@@ -26,7 +26,8 @@ class UserViewSet(viewsets.ViewSet):
 		permission_classes = []
 		if self.action == 'create' or self.action == 'login' or self.action == 'login_token':
 			permission_classes = [AllowAny]
-		elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
+		elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update' or \
+				self.action == 'clients' or self.action == 'factures' or self.action == 'fournisseurs' :
 			permission_classes = [IsLoggedInUserOrAdmin]
 		elif self.action == 'list' or self.action == 'names':
 			permission_classes = [IsAdminUser]
@@ -129,3 +130,56 @@ class UserViewSet(viewsets.ViewSet):
 		except:
 			error = "Invalid token"
 			return Response({'error': error}, status=status.HTTP_404_NOT_FOUND)
+		
+	@action(detail=True, methods=['get', 'post'])
+	def clients(self, request, pk=None, *args, **kwargs):
+		if request.method == 'GET':
+			""" LIST ALL CUSTOMERS OF AN USER """
+			queryset = UserClient.objects.filter(id_user=pk)
+			serializer = UserClientDetailSerializer(queryset, many=True)
+			return Response(serializer.data)
+		
+		elif request.method == 'POST':
+			""" ADD A CUSTOMER TO AN USER """
+			data = request.data.copy()
+			data['user_id'] = pk
+			serializer = UserClientSerializer(data=data)
+			serializer.is_valid(raise_exception=True)
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+	# GET,POST 127.0.0.1:8000/api/users/1/factures/
+	@action(detail=True, methods=['get', 'post'])
+	def factures(self, request, pk=None, *args, **kwargs):
+		if request.method == 'GET':
+			""" LIST ALL INVOICES OF AN USER """
+			queryset = Facture.objects.filter(id_user=pk)
+			serializer = UserFactureDetailSerializer(queryset, many=True)
+			return Response(serializer.data)
+		
+		elif request.method == 'POST':
+			""" ADD AN INVOICE TO AN USER """
+			data = request.data.copy()
+			data['id'] = pk
+			serializer = FactureSerializer(data=data)
+			serializer.is_valid(raise_exception=True)
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+	
+	# GET,POST 127.0.0.1:8000/api/users/1/fournisseurs/
+	@action(detail=True, methods=['get', 'post'])
+	def fournisseurs(self, request, pk=None, *args, **kwargs):
+		if request.method == 'GET':
+			""" LIST ALL PROVIDERS OF AN USER """
+			queryset = UserFournisseur.objects.filter(id_user=pk)
+			serializer = UserFournisseurDetailSerializer(queryset, many=True)
+			return Response(serializer.data)
+		
+		elif request.method == 'POST':
+			""" ADD A PROVIDER TO AN USER """
+			data = request.data.copy()
+			data['id'] = pk
+			serializer = UserFournisseurSerializer(data=data)
+			serializer.is_valid(raise_exception=True)
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
