@@ -17,6 +17,8 @@ from settings.settings import BASE_DIR
 
 
 class TestViewSet(viewsets.ViewSet):
+	
+	# GET 127.0.0.1:8000/api/test/
 	def test(self):
 		return "coucou"
 
