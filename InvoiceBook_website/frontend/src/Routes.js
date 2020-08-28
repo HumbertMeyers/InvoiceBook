@@ -13,16 +13,22 @@ import AjoutFournisseur from "./pages/AjoutFournisseur.js";
 
 class Routes extends Component {
   render() {
+
     return (
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/Profil" component={Profile} />
+        <Route exact path="/Profil" component={() => (
+          <Profile
+            user_name={this.props.user_name}
+            user_email={this.props.user_email}
+            user_family_name={this.props.user_family_name}
+            display_popUp={this.props.display_popUp}
+          />)} />
         <Route exact path="/Help" component={Help} />
         <Route exact path="/Contact" component={Contact} />
         <Route exact path="/About" component={About} />
         <Route exact path="/Clients" component={AjoutClient} />
-        <Route exact path="/AjoutFacture" component={AjoutFacture}
-          user_id={this.props.user_id}
+        <Route exact path="/AjoutFacture" component={() => <AjoutFacture user_id={this.props.user_id}/>}
         />
         <Route exact path="/RechercheFactures" component={RechercheFacture} />
         <Route exact path="/Fournisseurs" component={AjoutFournisseur} />

@@ -37,15 +37,14 @@ export function userFromToken() {
 };
 
 
-export function getUserProfileAPIRequest(id, callback) {
+export function getUserProfileAPIRequest(id) {
     let endpoint = `/api/users/${id}/`;
     let input;
     input = masterURL(endpoint, "json", "GET");
+
     fetch(input)
-    .then(function response() {
-        let profile = JSON.parse(response)[0];
-        console.log(profile);
-        callback(profile.first_name + " " + profile.last_name);
+    .then((response) => {
+				response.json()
     })
     .catch(function(err){
       localStorage.setItem('token',null);

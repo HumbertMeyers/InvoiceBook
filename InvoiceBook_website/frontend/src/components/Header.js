@@ -5,6 +5,10 @@ import logo from "../assets/logo.svg";
 import styled from 'styled-components';
 import {Link} from "react-router-dom";
 
+import Connexion from "./Connexion";
+import Inscription from "./Inscription";
+import Deconnexion from "./Deconnexion";
+
 const Styles = styled.div`
   .navbar {
     background-color: #222;
@@ -25,6 +29,10 @@ const Styles = styled.div`
     background-color: #888;
     color: #eee;
   }
+
+  img{
+    filter: invert( 100%);
+  }
 `;
 
 
@@ -43,18 +51,18 @@ function Header (props) {
 			      />{' '}
 		      InvoiceBook</Navbar.Brand>
 			    <Navbar.Text>
-			      <span id="AfficheUserName" ></span>
+			      <span  >{props.afficheNom}</span>
 			    </Navbar.Text>
 		      <Navbar.Toggle aria-controls="basic-navbar-nav" />
 		      <Navbar.Collapse id="basic-navbar-nav">
 		        <Nav  variant="pills" defaultActiveKey="1" className="ml-auto">
 	            <Nav.Link eventKey="1" as={Link} to="/">Home</Nav.Link>
 		          <Nav.Link eventKey="2" as={Link} to="Help">Help</Nav.Link>
-	            <Nav.Link id="Connexion">
-					      <span onClick={() => props.display_popUp("Connexion")}>Connexion</span>
+	            <Nav.Link id="Connexion"  onClick={() => props.display_popUp(Connexion)}>
+					      <span>Connexion</span>
 				      </Nav.Link>
-			        <Nav.Link id="Inscription">
-					      <span onClick={() => props.display_popUp("Inscription")}>Inscription</span>
+			        <Nav.Link id="Inscription" onClick={() => props.display_popUp(Inscription)}>
+					      <span>Inscription</span>
 				      </Nav.Link>
 		        </Nav>
 		      </Navbar.Collapse>
@@ -96,7 +104,7 @@ function Header (props) {
 				      </NavDropdown>
 				      <Nav.Link eventKey="4" as={Link} to="Profil">Profil</Nav.Link>
 				      <Nav.Link id="Deconnexion">
-					      <span onClick={() => props.display_popUp("Deconnexion")}>Déconnexion</span>
+					      <span onClick={() => props.display_popUp(Deconnexion)}>Déconnexion</span>
 				      </Nav.Link>
 				    </Nav>
 			    </Navbar.Collapse>

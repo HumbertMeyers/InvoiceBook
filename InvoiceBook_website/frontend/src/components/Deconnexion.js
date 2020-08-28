@@ -7,22 +7,12 @@ import "./FormSign.css";
 class Deconnexion extends Component {
   constructor(props) {
     super(props);
-    this.showPopUp = true;
   }
-
-  componentDidUpdate() {
-    this.showPopUp = this.props.showPopUp;
-  }
-
-  closePopUp = () => {
-    this.showPopUp = false;
-    this.forceUpdate();
-  };
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.handle_deconnexion();
-    this.closePopUp();
+    this.props.closeMe();
   };
 
   render() {
@@ -30,10 +20,8 @@ class Deconnexion extends Component {
       <>
         {/* Sign-out popup */}
         <Modal
-          show={this.showPopUp}
-          onHide={() => {
-            this.closePopUp();
-          }}
+          show={true}
+          onHide={this.props.closeMe}
         >
           <Modal.Header closeButton>
             <Modal.Title>Deconnexion</Modal.Title>
@@ -51,7 +39,7 @@ class Deconnexion extends Component {
                   className="FormCancelBtn"
                   type="button"
                   value="Annuler"
-                  onClick={this.closePopUp}
+                  onClick={this.props.closeMe}
                 />
                 <input
                   className="FormSubmitBtn"

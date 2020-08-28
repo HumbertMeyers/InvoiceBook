@@ -1,13 +1,14 @@
+import json
 from os import mkdir, path
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User, Group, update_last_login
 from django.db import IntegrityError
+from django.http import HttpResponse as Response, JsonResponse, request
 from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
 from rest_framework_jwt.utils import jwt_decode_handler
 
@@ -18,9 +19,22 @@ from settings.settings import BASE_DIR
 
 class TestViewSet(viewsets.ViewSet):
 	
+	def get_permissions(self):
+		""" CONTROL PERMISSIONS """
+		permission_classes = []
+		if self.action == 'create' or self.action == 'login' or self.action == 'login_token' or self.action == 'list':
+			permission_classes = [AllowAny]
+		elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update' or \
+				self.action == 'clients' or self.action == 'factures' or self.action == 'fournisseurs':
+			permission_classes = [IsLoggedInUserOrAdmin]
+		elif self.action == 'names':
+			permission_classes = [IsAdminUser]
+		return [permission() for permission in permission_classes]
+	
 	# GET 127.0.0.1:8000/api/test/
-	def test(self):
-		return "coucou"
+	def list(self, request):
+		return JsonResponse({"coucou": "yeah"})
+
 
 #######################
 ###    USERS API    ###
@@ -33,7 +47,7 @@ class UserViewSet(viewsets.ViewSet):
 		if self.action == 'create' or self.action == 'login' or self.action == 'login_token':
 			permission_classes = [AllowAny]
 		elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update' or \
-				self.action == 'clients' or self.action == 'factures' or self.action == 'fournisseurs' :
+				self.action == 'clients' or self.action == 'factures' or self.action == 'fournisseurs':
 			permission_classes = [IsLoggedInUserOrAdmin]
 		elif self.action == 'list' or self.action == 'names':
 			permission_classes = [IsAdminUser]
@@ -120,8 +134,7 @@ class UserViewSet(viewsets.ViewSet):
 		else:
 			error = "Credential error : your username or password may be wrong"
 			return Response({'error': error}, status=status.HTTP_401_UNAUTHORIZED)
-			
-
+	
 	# GET 127.0.0.1:8000/api/users/login_token/?token=klzjehflzfhnqlkfzefqzfghref
 	@action(detail=False, methods=['get'])
 	def login_token(self, request, *args, **kwargs):
@@ -140,7 +153,22 @@ class UserViewSet(viewsets.ViewSet):
 		except:
 			error = "Invalid token"
 			return Response({'error': error}, status=status.HTTP_404_NOT_FOUND)
-		
+	
+	# GET 127.0.0.1:8000/api/users/1/changepwd/?pwd=SomePassword
+	@action(detail=True, methods=['get'])
+	def change_password(self, request, pk=None):
+		""" CHANGE THE PASSWORD OF THE USER """
+		usr = User.objects.filter(id_user=pk)
+		pwd = request.query_params.get('pwd')
+		usr.set_password(pwd)
+		try:
+			usr.save()
+			return Response({'status': 'password set'})
+		except:
+			error = "Une erreur est survenue"
+			return Response({'error': error}, status=status.HTTP_400_BAD_REQUEST)
+	
+	# GET,POST 127.0.0.1:8000/api/users/1/clients/
 	@action(detail=True, methods=['get', 'post'])
 	def clients(self, request, pk=None, *args, **kwargs):
 		if request.method == 'GET':
@@ -156,8 +184,9 @@ class UserViewSet(viewsets.ViewSet):
 			serializer = UserClientSerializer(data=data)
 			serializer.is_valid(raise_exception=True)
 			serializer.save()
+			queryset = Client.objects.filter(lastname=data['lastname'], firstname=data['firstname'])
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+	
 	# GET,POST 127.0.0.1:8000/api/users/1/factures/
 	@action(detail=True, methods=['get', 'post'])
 	def factures(self, request, pk=None, *args, **kwargs):
@@ -174,6 +203,7 @@ class UserViewSet(viewsets.ViewSet):
 			serializer = FactureSerializer(data=data)
 			serializer.is_valid(raise_exception=True)
 			serializer.save()
+			
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 	
 	# GET,POST 127.0.0.1:8000/api/users/1/fournisseurs/
@@ -193,16 +223,3 @@ class UserViewSet(viewsets.ViewSet):
 			serializer.is_valid(raise_exception=True)
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-#######################
-###   INVOICE API   ###
-
-class FactureViewSet(viewsets.ViewSet):
-	
-	# GET 127.0.0.1:8000/api/tools/
-	def list(self, request, *args, **kwargs):
-		"""" list all tools """
-		queryset = Facture.objects.all()
-		serializer = FactureSerializer(queryset, many=True)
-		return Response(serializer.data)

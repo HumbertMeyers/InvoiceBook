@@ -6,11 +6,8 @@ import Layout from './components/Layout.js';
 import Routes from './Routes.js';
 import tokenIsValid, {getUserProfileAPIRequest, userFromToken} from "./utilitaires/utils";
 import historique from './utilitaires/historique';
-import { api } from './utilitaires/api';
+import { api , fetchApi} from './utilitaires/api';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Connexion from "./components/Connexion";
-import Inscription from "./components/Inscription";
-import Deconnexion from "./components/Deconnexion";
 
 class App extends Component {
   constructor(props) {
@@ -18,51 +15,70 @@ class App extends Component {
     this.state = {
       logged_in: false,
       user_id: 0,
-      show_popUp: "",
-      afficheNom: "",
+      show_popUp: null,
+      user_name: "",
+      user_family_name: "",
+      user_email: '',
     };
   }
 
-  componentDidMount() {
-    if (tokenIsValid()) {
-      let token = localStorage.getItem('token');
-      let endpoint = "/api/users/login_token/?token=";
-      let req = new api();
-      req.open("GET", `${endpoint}${token}`);
+  // componentDidMount() {
+  //   if (tokenIsValid()) {
+  //     let token = localStorage.getItem('token');
+  //
+  //
+  //
+  //
+  //     let endpoint = "/api/users/login_token/?token=";
+  //     let req = new api();
+  //     req.open("GET", `${endpoint}${token}`);
+  //
+  //     let self = this;
+  //     req.addEventListener("readystatechange", function () {
+  //       if (this.readyState === 4) {
+  //         if (this.status === 200) {
+  //           let user = this.responseText[0];
+  //           console.log(user);
+  //           self.setState({
+  //             user_id: user.id,
+  //             logged_in: true,
+  //           });
+  //           getUserProfileAPIRequest(userFromToken().id);
+  //         }
+  //         if (this.status === 404) {
+  //           // document.getElementById("AfficheUserName").innerHTML = "";
+  //           //historique.push('/');
+  //         }
+  //       }
+  //     });
+  //
+  //     req.send();
+  //
+  //   }
+  //   else{
+  //     // document.getElementById("AfficheUserName").innerHTML = "";
+  //   }
+  // }
 
-      let self = this;
-      req.addEventListener("readystatechange", function () {
-        if (this.readyState === 4) {
-          if (this.status === 200) {
-            let user = this.responseText[0];
-            console.log(user);
-            self.setState({
-              user_id: user.id,
-              logged_in: true,
-            });
-            getUserProfileAPIRequest(userFromToken().id);
-          }
-          if (this.status === 404) {
-            document.getElementById("AfficheUserName").innerHTML = "";
-            //historique.push('/');
-          }
-        }
-      });
+//   display_popUp (type){
+// ;
+//   };
 
-      req.send();
+  popUp(){
+    let Dial = this.state.show_popUp;
+    if(Dial === null)
+      return null;
 
-    }
-    else{
-      document.getElementById("AfficheUserName").innerHTML = "";
-    }
-  }
+    return (<Dial
+         handle_deconnexion={this.handle_deconnexion}
+         handle_connexion={this.on_login}
+         closeMe={() => this.setState({show_popUp: null})}
+         user_id={this.state.user_id}
+        />);
 
-  display_popUp = (type) => {
-    this.setState({ show_popUp: type });
-  };
 
-  popUp = () => {
-    let p;
+
+/*    let p;
     switch (this.state.show_popUp) {
       case "Connexion":
         p = <Connexion showPopUp={true} handle_connexion={this.handle_connexion} />;
@@ -76,24 +92,49 @@ class App extends Component {
       default:
         p = null;
     }
-    return p;
+    return p;*/
   };
 
-  handle_connexion = (u_id, u_token) => {
+  //called after sucessfull login. fetch user data
+  on_login = (u_id, u_token, user_email) => {
     localStorage.setItem('token',u_token);
-    getUserProfileAPIRequest(userFromToken().id, (text)=> this.setState({afficheNom: text} ));
-    this.setState({
-      user_id: u_id,
-      logged_in: true,
-    }, () => {
-      historique.push('/');
+    localStorage.setItem('user_id',u_id);
+
+
+    fetchApi(`/users/${u_id}/`).then((ans) => {
+      localStorage.setItem('first_name', ans.first_name);
+      localStorage.setItem('last_name', ans.last_name);
+
+      this.setState({
+        user_name: ans.first_name,
+        user_family_name: ans.last_name,
+        user_email: user_email,
+        user_id: u_id,
+        logged_in: true,
+      });
+
+    }).catch((err) => {
+      console.log('failed to fetch profile');
+      localStorage.setItem('token',null);
     });
+
+    // getUserProfileAPIRequest(userFromToken().id, (text)=> this.setState({afficheNom: text} ));
+    // this.setState({
+    //   user_id: u_id,
+    //   logged_in: true,
+    // }, () => {
+    //   historique.push('/');
+    //   window.location.reload();
+    // });
+
+
   };
 
   handle_deconnexion = () => {
     localStorage.removeItem('token');
-    historique.push('/');
+    // historique.push('/');
     this.setState({
+      user_name: "",
       user_id: 0,
       logged_in: false,
     });
@@ -105,13 +146,17 @@ class App extends Component {
         <div className="bg">
           <Header
             logged_in={this.state.logged_in}
-            display_popUp={this.display_popUp}
-            afficheNom={this.state.afficheNom}
+            display_popUp={(type) =>     this.setState({ show_popUp: type })}
+            afficheNom={this.state.user_name + ' ' + this.state.user_family_name}
           />
           <Layout />
           <div className="Body" style={{textAlign: "center"}}>
             <Routes
               user_id={this.state.user_id}
+              user_name={this.state.user_name}
+              user_email={this.state.user_email}
+              user_family_name={this.state.user_family_name}
+              display_popUp={(type) =>     this.setState({ show_popUp: type })}
             />
             <div id="bodyContent">
               {this.popUp()} {/*every popup will be displayed here*/}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
-import { api } from "../utilitaires/api.js";
+import { api, fetchApi } from "../utilitaires/api.js";
 
 import "./FormSign.css";
 
@@ -11,6 +11,9 @@ const user_initState = {
   newPassword: "",
   confirmPassword: "",
   estOK: false,
+  confPassErr: "",
+  newPassErr: "",
+  emailErr: "",
 };
 
 /**
@@ -20,51 +23,51 @@ class Inscription extends Component {
   constructor(props) {
     super(props);
     this.state = user_initState;
-    this.showPopUp = true;
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  componentDidUpdate() {
-    this.showPopUp = this.props.showPopUp;
-  }
-
-  closePopUp = () => {
-    this.showPopUp = false;
-    this.setState(user_initState);
-  };
 
 
   newAccountAPIRequest(newprofile) {
-    let self = this; //self will be a reference to the SignUp class object
-
-    let endpoint = "/api/users/";
-
-    let req = new api();
-    req.open("POST", `${endpoint}`);
-    req.contentType("json");
-
-    req.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        if (this.status === 201) {
-          let usr = JSON.parse(this.responseText)[0];
-          let usr_id = usr.id;
-          let usr_token = usr.token;
-          self.props.handle_connexion(usr_id,usr_token);
-          self.closePopUp();
-        } else if (this.status === 409) {
-          let error = JSON.parse(this.responseText).error;
-          if (error.includes("email")) {
-            document.getElementById("email_error").innerHTML = error;
-          }
-          else {
-            //pass
-          }
-        }
-      }
+    fetchApi(`/users/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(newprofile),
+    }).then((ans) => alert(ans))
+    .catch(err => {
+      alert(err);
     });
 
-    req.send(newprofile);
+
+    // let self = this; //self will be a reference to the SignUp class object
+    //
+    // let endpoint = "/api/users/";
+    //
+    // let req = new api();
+    // req.open("POST", `${endpoint}`);
+    // req.contentType("json");
+    //
+    // req.addEventListener("readystatechange", function () {
+    //   if (this.readyState === 4) {
+    //     if (this.status === 201) {
+    //       let usr = JSON.parse(this.responseText)[0];
+    //       let usr_id = usr.id;
+    //       let usr_token = usr.token;
+    //       self.props.handle_connexion(usr_id,usr_token);
+    //       self.closePopUp();
+    //     } else if (this.status === 409) {
+    //       let error = JSON.parse(this.responseText).error;
+    //       if (error.includes("email")) {
+    //         document.getElementById("email_error").innerHTML = error;
+    //       }
+    //       else {
+    //         //pass
+    //       }
+    //     }
+    //   }
+    // });
+    //
+    // req.send(newprofile);
   }
 
   handleChange = (e) => {
@@ -76,30 +79,17 @@ class Inscription extends Component {
       {
         [name]: value,
       },
-      function () {
+       () => {
         if (name === "newPassword") {
           //Check if password has a minimum length of 8
-          if (value !== "" && value.length < 8) {
-            let errorMessage = "<p>Le mot de passe doit faire au minimun 8 caractères!</p>";
-            document.getElementById(
-              "newpassword_error"
-            ).innerHTML = errorMessage;
-          } else {
-            document.getElementById("newpassword_error").innerHTML = "";
-          }
+          this.setState({newPassErr: (value !== "" && value.length < 8) ? "Le mot de passe doit faire au minimun 8 caractères!":""});
+
         }
 
         if (name === "confirmPassword") {
           //Check if passwords are matching
-          if (
-            value !== "" &&
-            this.state.newPassword !== this.state.confirmPassword
-          ) {
-            let errorMessage = "<p>Les mots de passes ne correspondent pas</p>";
-            document.getElementById("password_error").innerHTML = errorMessage;
-          } else {
-            document.getElementById("password_error").innerHTML = "";
-          }
+          this.setState({confPassErr: (  value !== "" && this.state.newPassword !== this.state.confirmPassword) ? "Les mots de passes ne correspondent pas":""});
+
         }
       }
     );
@@ -114,7 +104,7 @@ class Inscription extends Component {
       email: this.state.email,
       password: this.state.newPassword,
     };
-    this.newAccountAPIRequest(JSON.stringify(data));
+    this.newAccountAPIRequest(data);
   }
 
   render() {
@@ -122,10 +112,8 @@ class Inscription extends Component {
       <>
         {/* Sign-up popup */}
         <Modal
-          show={this.showPopUp}
-          onHide={() => {
-            this.closePopUp();
-          }}
+          show={true}
+          onHide={this.props.closeMe}
         >
           <Modal.Header closeButton>
             <Modal.Title>Inscription</Modal.Title>
@@ -147,7 +135,7 @@ class Inscription extends Component {
                 value={this.state.email}
                 onChange={this.handleChange}
               />
-              <span className="error" id="email_error"></span>
+              <span className="error" id="email_error">{this.state.emailErr}</span>
               <label className="FormField_Label" htmlFor="first_name">
                 {" "}
                 Prénom{" "}
@@ -178,7 +166,7 @@ class Inscription extends Component {
               />
               <label className="FormField_Label" htmlFor="newPassword">
                 {" "}
-                Nouveau mot de passe{" "}
+                Mot de passe{" "}
               </label>
               <input
                 required
@@ -186,11 +174,11 @@ class Inscription extends Component {
                 className="FormField_Input"
                 name="newPassword"
                 autoComplete="new-password"
-                placeholder="Enter a new password"
+                placeholder="Entrez votre mot de passe"
                 value={this.state.newPassword}
                 onChange={this.handleChange}
               />
-              <span className="error" id="newpassword_error" ></span>
+              <span className="error" id="newpassword_error" >{this.state.newPassErr}</span>
               <label className="FormField_Label" htmlFor="confirmPassword">
                 {" "}
                 Confirmation du mot de passe{" "}
@@ -201,11 +189,11 @@ class Inscription extends Component {
                 className="FormField_Input"
                 name="confirmPassword"
                 autoComplete="new-password"
-                placeholder="Enter your password"
+                placeholder="Confirmez votre mot de passe"
                 value={this.state.confirmPassword}
                 onChange={this.handleChange}
               />
-              <span className="error" id="password_error"></span>
+              <span className="error" id="password_error">{this.state.confPassErr}</span>
               <div>
                 <label className="FormField_CheckBox" htmlFor="estOK"></label>
                 <input
@@ -216,7 +204,7 @@ class Inscription extends Component {
                   value={this.state.estOK}
                   onChange={this.handleChange}
                 />{" "}
-                J'accèpte les conditions des{" "}
+                J'accepte les {" "}
                 <a href="/terms" className="FormField_TermsLink">
                   {" "}
                   conditions générales d'utiliation.{" "}
@@ -227,7 +215,7 @@ class Inscription extends Component {
                   className="FormCancelBtn"
                   type="button"
                   value="Annuler"
-                  onClick={this.closePopUp}
+                  onClick={this.props.closeMe}
                 />
                 <input
                   className="FormSubmitBtn"

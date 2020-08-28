@@ -1,9 +1,11 @@
 import React, {Component, useState} from 'react';
 import {Container, Tabs, Tab, Form, Button} from "react-bootstrap";
+import {fetchApi} from '../../utilitaires/api.js';
 
 class AjoutFacture extends Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			nom: "",
 			TVA: "",
@@ -14,27 +16,37 @@ class AjoutFacture extends Component {
 	}
 
 	fetchFournisseursNoms = (endpoint, id) => {
-		return fetch(`${endpoint}${id}/fournisseurs`)
-			.then((response) => {
-				response.json()
-			}, (err) => alert(err))
-			.then((fourni) => {
+
+
+			fetchApi(`/users/${id}/fournisseurs/`).then((fourList) => {
 				this.setState({
-					fournisseurs: fourni.map(f => f.fournisseurs.nom)
+					fournisseurs: fourList.map(c => c.fournisseurs.nom)
 				});
 			})
+			.catch((err) => {
+				alert(err);
+			});
 	}
 
 	fetchClientsNoms = (endpoint, id) => {
-		return fetch(`${endpoint}${id}/clients`)
-			.then((response) => {
-				response.json()
-			}, (err) => alert(err))
-			.then((client) => {
-				this.setState({
-					clients: client.map(c => c.clients.nom)
-				});
-			})
+		fetchApi(`/users/${id}/clients/`).then((cliList) => {
+			this.setState({
+				clients: cliList.map(c => c.clients.nom)
+			});
+		})
+		.catch((err) => {
+			alert('fetchClientsNoms ' + err + id);
+		});
+
+		// return fetch(`${endpoint}${id}/clients`)
+		// 	.then((response) => {
+		// 		response.json()
+		// 	}, (err) => alert(err))
+		// 	.then((client) => {
+		// 		this.setState({
+		// 			clients: client.map(c => c.clients.nom)
+		// 		});
+		// 	})
 	}
 
 	componentDidMount() {

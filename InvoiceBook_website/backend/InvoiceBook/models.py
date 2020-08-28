@@ -4,14 +4,13 @@ from internationalflavor.countries import CountryField
 from internationalflavor.iban import IBANField
 from internationalflavor.vat_number import VATNumberField
 
+
 # Create your models here.
-
-
 
 class User(AbstractUser):
 	pass
-	
-	
+
+
 class Fournisseur(models.Model):
 	id_fournisseur = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=45, default='')
@@ -53,7 +52,8 @@ class Facture(models.Model):
 	dateFacturation = models.DateField()
 	montant = models.DecimalField(max_digits=11, decimal_places=2)
 	nomDeFichier = models.FileField()
-	id_fournisseur = models.ForeignKey('Fournisseur', models.DO_NOTHING, db_column='id_fournisseur', blank=True, null=True)
+	id_fournisseur = models.ForeignKey('Fournisseur', models.DO_NOTHING, db_column='id_fournisseur', blank=True,
+																		 null=True)
 	id_client = models.ForeignKey('Client', models.DO_NOTHING, db_column='id_cient', blank=True, null=True)
 	
 	class Meta:
@@ -85,7 +85,7 @@ class UserFacture(models.Model):
 	id_userFacture = models.AutoField(primary_key=True)
 	id_user = models.ForeignKey('User', models.DO_NOTHING, db_column='id')
 	id_facture = models.ForeignKey('Facture', models.DO_NOTHING, db_column='id_facture')
-
+	
 	class Meta:
 		managed = True
 		db_table = 'UserFactures'

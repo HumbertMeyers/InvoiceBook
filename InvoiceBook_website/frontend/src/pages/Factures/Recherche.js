@@ -72,7 +72,6 @@ class RechercheFacture extends Component{
 				      <th>Tier : {this.state.radioType}</th>
 				      <th>Montant</th>
 					    <th>PDF</th>
-					    <th>Edition</th>
 				    </tr>
 				  </thead>
 					<tbody>
@@ -82,7 +81,6 @@ class RechercheFacture extends Component{
 						<td>SomeClient</td>
 						<td>126,6€</td>
 						<td><img src={PDFIcon} height="20px" alt="telecharger pdf"/></td>
-						<td></td>
 					</tr>
 					<tr>
 						<td>2</td>
@@ -90,7 +88,6 @@ class RechercheFacture extends Component{
 						<td></td>
 						<td></td>
 						<td><img src={PDFIcon} height="20px" alt="telecharger pdf"/></td>
-						<td></td>
 					</tr>
 					</tbody>
 				</Table>

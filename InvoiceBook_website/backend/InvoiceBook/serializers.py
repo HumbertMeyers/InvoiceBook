@@ -28,6 +28,7 @@ class UserLoginGetTokenSerializer(serializers.ModelSerializer):
 		model = User
 		fields = ('id', 'email', 'password', 'token')
 
+
 class NomSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
@@ -41,13 +42,15 @@ class NomSerializer(serializers.ModelSerializer):
 class FournisseurSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Fournisseur
-		fields = ('id_fournisseur', 'nom', 'numeroTVA')
+		fields = (
+			'id_fournisseur', 'name', 'TVA_number', 'iban', 'country', 'street', 'city', 'postcode', 'contact_lastname',
+			'contact_firstname', 'email')
 
 
 class UserFournisseurSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = UserFournisseur
-		fields = ('id_fournisseur',)
+		fields = ('id_user', 'id_fournisseur')
 
 
 class UserFournisseurDetailSerializer(serializers.ModelSerializer):
@@ -65,7 +68,8 @@ class UserFournisseurDetailSerializer(serializers.ModelSerializer):
 class ClientSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Client
-		fields = ('id_client', 'nom', 'numeroTVA')
+		fields = (
+			'id_client', 'firstname', 'lastname', 'country', 'company_name', 'TVA_number', 'street', 'city', 'postcode')
 
 
 class UserClientSerializer(serializers.ModelSerializer):
@@ -89,7 +93,7 @@ class UserClientDetailSerializer(serializers.ModelSerializer):
 class FactureSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Facture
-		fields = ('id_facture', 'dateFacturation', 'montant', 'nomDeFichier')
+		fields = ('id_facture', 'dateFacturation', 'montant', 'nomDeFichier', 'id_fournisseur', 'id_client')
 
 
 class UserFactureDetailSerializer(serializers.ModelSerializer):
@@ -101,9 +105,6 @@ class UserFactureDetailSerializer(serializers.ModelSerializer):
 
 
 class TierFactureDetailSerializer(serializers.ModelSerializer):
-	
 	class Meta:
 		model = Facture
 		fields = ('id_facture', 'id_fournisseur', 'id_client')
-
-
