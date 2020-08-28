@@ -18,26 +18,6 @@ from .permissions import IsLoggedInUserOrAdmin, IsAdminUser
 from settings.settings import BASE_DIR
 
 
-class TestViewSet(viewsets.ViewSet):
-	
-	def get_permissions(self):
-		""" CONTROL PERMISSIONS """
-		permission_classes = []
-		if self.action == 'create' or self.action == 'login' or self.action == 'login_token' or self.action == 'list':
-			permission_classes = [AllowAny]
-		elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update' or \
-				self.action == 'clients' or self.action == 'factures' or self.action == 'fournisseurs' or \
-				self.action == 'change_password':
-			permission_classes = [IsLoggedInUserOrAdmin]
-		elif self.action == 'names':
-			permission_classes = [IsAdminUser]
-		return [permission() for permission in permission_classes]
-	
-	# GET 127.0.0.1:8000/api/test/
-	def list(self, request):
-		return Response(json.dumps({"coucou": "yeah"}))
-
-
 #######################
 ###    USERS API    ###
 
@@ -49,7 +29,8 @@ class UserViewSet(viewsets.ViewSet):
 		if self.action == 'create' or self.action == 'login' or self.action == 'login_token':
 			permission_classes = [AllowAny]
 		elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update' or \
-				self.action == 'clients' or self.action == 'factures' or self.action == 'fournisseurs':
+				self.action == 'clients' or self.action == 'factures' or self.action == 'fournisseurs' \
+				or self.action == 'change_password':
 			permission_classes = [IsLoggedInUserOrAdmin]
 		elif self.action == 'list' or self.action == 'names':
 			permission_classes = [IsAdminUser]
