@@ -29,7 +29,6 @@ class RechercheFacture extends Component{
 			if(this.state.from)
 			 	from = String(this.state.from);
 
-
 			let to = '2100-01-01';
 			if(this.state.to)
 			 	to = String(this.state.to);

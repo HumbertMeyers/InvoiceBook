@@ -26,14 +26,12 @@ class Connexion extends Component {
     let target = e.target;
     let value = target.value;
     let name = target.name;
-    // alert(this);
     this.setState({ [name]: value, errorText:"" });
   };
 
   handleSubmit (e)  {
     e.preventDefault();
 
-    //loginAPIRequest
     fetchApi(`/users/login/?email=${this.state.email}&pwd=${this.state.password}`)
     .then((ans) => {
       let usr = ans;

@@ -7,19 +7,17 @@ const noStat = {
 	in:{
 		count: 0,
 		sum: 0,
-		avg: 0
 	},
 	out:{
 		count: 0,
 		sum: 0,
-		avg: 0
 	}
 };
 
 function HalfResume(props){
 	let avg = (props.count > 0) ? (props.sum / props.count) : 0;
 
-	return [						<Form.Group as={Row} controlId="formHorizontalEmail">
+return [			<Form.Group as={Row}>
 								<Form.Label column sm={2}>
 									Nombre
 								</Form.Label>
@@ -27,7 +25,7 @@ function HalfResume(props){
 									<Form.Control type="text" value ={props.count} readOnly />
 								</Col>
 							</Form.Group>,
-							<Form.Group as={Row} controlId="formHorizontalEmail">
+							<Form.Group as={Row} >
 								<Form.Label column sm={2}>
 									Montant total
 								</Form.Label>
@@ -35,7 +33,7 @@ function HalfResume(props){
 									<Form.Control type="text" value ={props.sum + ' €'} readOnly/>
 								</Col>
 							</Form.Group>,
-							<Form.Group as={Row} controlId="formHorizontalEmail">
+							<Form.Group as={Row} >
 								<Form.Label column sm={2}>
 									Montant moyen
 								</Form.Label>
@@ -83,9 +81,6 @@ export default class Resume extends Component{
 					result[facture.dir].count++;
 					result[facture.dir].sum+= facture.tune;
 				}
-
-
-
 				this.setState({facStat: result});
 			})
 			.catch(err => {
@@ -119,30 +114,6 @@ export default class Resume extends Component{
 								onChange={this.handleChange.bind(this)}
 							/>
 						</Form.Group>
-
-						Type :
-						<Form.Group onChange={this.handleChange.bind(this)} value={this.state.dir} name="dir">
-							<Form.Check
-								label="Tous"
-								type="radio"
-								name="dir"
-								value="inout"
-								defaultChecked
-							/>
-							<Form.Check
-								label="Clients"
-								type="radio"
-								name="dir"
-								value="out"
-							/>
-							<Form.Check
-								label="Fournisseurs"
-								type="radio"
-								name="dir"
-								value="in"
-							/>
-						</Form.Group>
-
 						</div>
 					</div>
 					<div>
@@ -163,13 +134,13 @@ export default class Resume extends Component{
 						<div>
 							<h3>Resultat</h3>
 							<Form.Group as={Row} controlId="formHorizontalEmail">
-														<Form.Label column sm={2}>
-															Benefice
-															</Form.Label>
-														<Col sm={10}>
-															<Form.Control type="text" value ={(facStat.in.sum - facStat.out.sum) + ' €'} readOnly />
-														</Col>
-													</Form.Group>
+								<Form.Label column sm={2}>
+									Benefice
+									</Form.Label>
+								<Col sm={10}>
+									<Form.Control type="text" value ={(facStat.in.sum - facStat.out.sum) + ' €'} readOnly />
+								</Col>
+							</Form.Group>
 						</div>
 					</div>
 				</div>

@@ -39,7 +39,8 @@ function Home() {
 					  </Row>
 					  <br />
 					  <Row>
-						  Si vous vous demandez comment utiliser cet outils, c'est bien simple, cliquez sur help
+						  Si vous vous demandez comment utiliser cet outils, c'est bien simple, allez voir la documentation sur
+						  <a href="https://github.com/HumbertMeyers/InvoiceBook/wiki">le wiki Github</a>
 					  </Row>
 				  </Col>
 			  </div>

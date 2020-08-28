@@ -50,15 +50,6 @@ class SetPasswordDialog extends Component {
 		.catch((e) => alert('failed to update password'))
 
 		this.props.closeMe();
-		// alert('df');
-    // let data = {
-	  //   last_name: this.state.last_name,
-    //   first_name: this.state.first_name,
-    //   username: this.state.email,
-    //   email: this.state.email,
-    //   password: this.state.newPassword,
-    // };
-    // this.newAccountAPIRequest(data);
   }
 
  render(){

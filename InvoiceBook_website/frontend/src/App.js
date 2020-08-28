@@ -4,9 +4,7 @@ import Header from './components/Header.js';
 import Footer from './components/Footer.js';
 import Layout from './components/Layout.js';
 import Routes from './Routes.js';
-import tokenIsValid, {getUserProfileAPIRequest, userFromToken} from "./utilitaires/utils";
-import historique from './utilitaires/historique';
-import { api , fetchApi} from './utilitaires/api';
+import {fetchApi} from './utilitaires/api';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends Component {
@@ -41,7 +39,8 @@ class App extends Component {
     localStorage.setItem('user_id',u_id);
 
 
-    fetchApi(`/users/${u_id}/`).then((ans) => {
+    fetchApi(`/users/${u_id}/`)
+      .then((ans) => {
       localStorage.setItem('first_name', ans.first_name);
       localStorage.setItem('last_name', ans.last_name);
 
@@ -53,7 +52,8 @@ class App extends Component {
         logged_in: true,
       });
 
-    }).catch((err) => {
+    })
+      .catch((err) => {
       console.log('failed to fetch profile');
       localStorage.setItem('token',null);
     });

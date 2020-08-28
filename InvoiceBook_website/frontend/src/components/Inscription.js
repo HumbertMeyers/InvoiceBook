@@ -25,41 +25,6 @@ class Inscription extends Component {
     this.state = user_initState;
   }
 
-
-  // newAccountAPIRequest(newprofile) {
-
-
-    // let self = this; //self will be a reference to the SignUp class object
-    //
-    // let endpoint = "/api/users/";
-    //
-    // let req = new api();
-    // req.open("POST", `${endpoint}`);
-    // req.contentType("json");
-    //
-    // req.addEventListener("readystatechange", function () {
-    //   if (this.readyState === 4) {
-    //     if (this.status === 201) {
-    //       let usr = JSON.parse(this.responseText)[0];
-    //       let usr_id = usr.id;
-    //       let usr_token = usr.token;
-    //       self.props.handle_connexion(usr_id,usr_token);
-    //       self.closePopUp();
-    //     } else if (this.status === 409) {
-    //       let error = JSON.parse(this.responseText).error;
-    //       if (error.includes("email")) {
-    //         document.getElementById("email_error").innerHTML = error;
-    //       }
-    //       else {
-    //         //pass
-    //       }
-    //     }
-    //   }
-    // });
-    //
-    // req.send(newprofile);
-  // }
-
   handleChange = (e) => {
     let target = e.target;
     let value = target.type === "checkbox" ? target.checked : target.value;
@@ -87,14 +52,6 @@ class Inscription extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // let signinData = {
-	  //   last_name: this.state.last_name,
-    //   first_name: this.state.first_name,
-    //   username: this.state.email,
-    //   email: this.state.email,
-    //   password: this.state.newPassword,
-    // };
-
 
     fetchApi(`/users/inscription/?last_name=${this.state.last_name}&first_name=${this.state.first_name}&username=${this.state.email}&email=${this.state.email}&password=${this.state.newPassword}`)
     .then((ans) =>

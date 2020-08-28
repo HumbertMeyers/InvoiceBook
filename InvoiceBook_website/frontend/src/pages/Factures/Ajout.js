@@ -45,11 +45,9 @@ class AjoutFacture extends Component {
 			fournisseurs: ["chargement..."],
 			clients: ["chargement..."],
 		};
-
 	}
 
 	fetchFournisseursNoms = (endpoint, id) => {
-
 
 			fetchApi(`/users/${id}/fournisseurs/`).then((fourList) => {
 				this.setState({
@@ -70,16 +68,6 @@ class AjoutFacture extends Component {
 		.catch((err) => {
 			console.log('fetchClientsNoms ' + err + id);
 		});
-
-		// return fetch(`${endpoint}${id}/clients`)
-		// 	.then((response) => {
-		// 		response.json()
-		// 	}, (err) => alert(err))
-		// 	.then((client) => {
-		// 		this.setState({
-		// 			clients: client.map(c => c.clients.nom)
-		// 		});
-		// 	})
 	}
 
 	componentDidMount() {
