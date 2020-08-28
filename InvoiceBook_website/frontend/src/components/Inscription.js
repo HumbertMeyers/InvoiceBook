@@ -26,17 +26,7 @@ class Inscription extends Component {
   }
 
 
-  newAccountAPIRequest(newprofile) {
-    fetchApi(`/users/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(newprofile),
-    }).then((ans) => alert(ans))
-    .catch(err => {
-      alert(err);
-    });
+  // newAccountAPIRequest(newprofile) {
 
 
     // let self = this; //self will be a reference to the SignUp class object
@@ -68,7 +58,7 @@ class Inscription extends Component {
     // });
     //
     // req.send(newprofile);
-  }
+  // }
 
   handleChange = (e) => {
     let target = e.target;
@@ -97,14 +87,23 @@ class Inscription extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let data = {
-	    last_name: this.state.last_name,
-      first_name: this.state.first_name,
-      username: this.state.email,
-      email: this.state.email,
-      password: this.state.newPassword,
-    };
-    this.newAccountAPIRequest(data);
+    // let signinData = {
+	  //   last_name: this.state.last_name,
+    //   first_name: this.state.first_name,
+    //   username: this.state.email,
+    //   email: this.state.email,
+    //   password: this.state.newPassword,
+    // };
+
+
+    fetchApi(`/users/inscription/?last_name=${this.state.last_name}&first_name=${this.state.first_name}&username=${this.state.email}&email=${this.state.email}&password=${this.state.newPassword}`)
+    .then((ans) =>
+      alert("Inscription ok")
+
+    )
+    .catch(err => {
+      alert(err);
+    });
   }
 
   render() {

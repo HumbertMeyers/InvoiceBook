@@ -22,48 +22,6 @@ class App extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   if (tokenIsValid()) {
-  //     let token = localStorage.getItem('token');
-  //
-  //
-  //
-  //
-  //     let endpoint = "/api/users/login_token/?token=";
-  //     let req = new api();
-  //     req.open("GET", `${endpoint}${token}`);
-  //
-  //     let self = this;
-  //     req.addEventListener("readystatechange", function () {
-  //       if (this.readyState === 4) {
-  //         if (this.status === 200) {
-  //           let user = this.responseText[0];
-  //           console.log(user);
-  //           self.setState({
-  //             user_id: user.id,
-  //             logged_in: true,
-  //           });
-  //           getUserProfileAPIRequest(userFromToken().id);
-  //         }
-  //         if (this.status === 404) {
-  //           // document.getElementById("AfficheUserName").innerHTML = "";
-  //           //historique.push('/');
-  //         }
-  //       }
-  //     });
-  //
-  //     req.send();
-  //
-  //   }
-  //   else{
-  //     // document.getElementById("AfficheUserName").innerHTML = "";
-  //   }
-  // }
-
-//   display_popUp (type){
-// ;
-//   };
-
   popUp(){
     let Dial = this.state.show_popUp;
     if(Dial === null)
@@ -75,24 +33,6 @@ class App extends Component {
          closeMe={() => this.setState({show_popUp: null})}
          user_id={this.state.user_id}
         />);
-
-
-
-/*    let p;
-    switch (this.state.show_popUp) {
-      case "Connexion":
-        p = <Connexion showPopUp={true} handle_connexion={this.handle_connexion} />;
-        break;
-      case "Inscription":
-        p = <Inscription showPopUp={true} handle_connexion={this.handle_connexion} />;
-        break;
-      case "Deconnexion":
-        p = <Deconnexion showPopUp={true} handle_deconnexion={this.handle_deconnexion} />;
-        break;
-      default:
-        p = null;
-    }
-    return p;*/
   };
 
   //called after sucessfull login. fetch user data
@@ -117,27 +57,12 @@ class App extends Component {
       console.log('failed to fetch profile');
       localStorage.setItem('token',null);
     });
-
-    // getUserProfileAPIRequest(userFromToken().id, (text)=> this.setState({afficheNom: text} ));
-    // this.setState({
-    //   user_id: u_id,
-    //   logged_in: true,
-    // }, () => {
-    //   historique.push('/');
-    //   window.location.reload();
-    // });
-
-
   };
 
   handle_deconnexion = () => {
-    localStorage.removeItem('token');
-    // historique.push('/');
-    this.setState({
-      user_name: "",
-      user_id: 0,
-      logged_in: false,
-    });
+    localStorage.clear();
+
+    window.location.href = '/';
   };
 
   render (){

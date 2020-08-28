@@ -21,33 +21,6 @@ class Connexion extends Component {
   }
 
 
-  // loginAPIRequest(email,pwd) {
-    // let self = this; //self will be a reference to the SignIn class object
-
-
-    // let endpoint = "/api/users/login/?email=";
-    //
-    // let req = new api();
-    // req.open("GET", `${endpoint}${email}&pwd=${pwd}`);
-    //
-    // req.addEventListener("readystatechange", function () {
-    //   if (this.readyState === 4 && this.status === 200) {
-    //     let usr = JSON.parse(this.responseText)[0];
-    //     let usr_id = usr.id;
-    //     let usr_token = usr.token;
-    //
-    //     document.getElementById("connexionError").innerHTML = "";
-    //     self.props.handle_connexion(usr_id,usr_token);
-    //     self.closePopUp();
-    //   }
-    //   if (this.status === 404) {
-    //
-    //     document.getElementById("connexionError").innerHTML = "Une erreur de connexion s'est produite, vérifiez vos identifiants";
-    //   }
-    // });
-    //
-    // req.send();
-  // }
 
   handleChange(e){
     let target = e.target;
@@ -60,12 +33,6 @@ class Connexion extends Component {
   handleSubmit (e)  {
     e.preventDefault();
 
-//     let uri =  "http://192.168.1.7"; //"http://127.0.0.1";
-//     let port = 8000;
-//
-//     fetch(`${uri}:${port}/api/test/`).then((e) => e.text()).then((e) => alert(e));
-//
-// return;
     //loginAPIRequest
     fetchApi(`/users/login/?email=${this.state.email}&pwd=${this.state.password}`)
     .then((ans) => {

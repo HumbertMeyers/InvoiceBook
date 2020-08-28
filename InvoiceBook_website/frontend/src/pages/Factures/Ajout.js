@@ -2,6 +2,39 @@ import React, {Component, useState} from 'react';
 import {Container, Tabs, Tab, Form, Button} from "react-bootstrap";
 import {fetchApi} from '../../utilitaires/api.js';
 
+function AddFactForm(props){
+	return (
+		<Container className="principal">
+			<Form>
+				<Form.Group>
+					<Form.Label>{props.optLabel}</Form.Label>
+					<Form.Control as="select" custom>
+						{props.opt.map((key) =>   <option>{key}</option>)}
+					</Form.Control>
+
+					<Form.Label>Numéro de facture</Form.Label>
+					<Form.Control placeholder="Numéro de Facture" type="number" />
+
+					<Form.Label>Montant de la facture</Form.Label>
+					<Form.Control placeholder="montant de la facture" type="number" />
+
+					<Form.Label>Date de la facturation</Form.Label>
+					<Form.Control placeholder="Date de facturation"type="date" />
+				</Form.Group>
+					<Form.Label>Fichier de votre facture</Form.Label>
+					<Form.File id="formcheck-api-regular">
+						<Form.File.Input />
+					</Form.File>
+
+				<br/>
+				<Button variant="primary" type="submit">
+					Enregistrer
+				</Button>
+			</Form>
+		</Container>
+	);
+}
+
 class AjoutFacture extends Component {
 	constructor(props) {
 		super(props);
@@ -24,7 +57,7 @@ class AjoutFacture extends Component {
 				});
 			})
 			.catch((err) => {
-				alert(err);
+				console.log(err);
 			});
 	}
 
@@ -35,7 +68,7 @@ class AjoutFacture extends Component {
 			});
 		})
 		.catch((err) => {
-			alert('fetchClientsNoms ' + err + id);
+			console.log('fetchClientsNoms ' + err + id);
 		});
 
 		// return fetch(`${endpoint}${id}/clients`)
@@ -57,76 +90,14 @@ class AjoutFacture extends Component {
 	}
 
 	render(){
-		let factureIn = (
-			<Container className="principal">
-				<Form>
-					<Form.Group>
-						<Form.Label>Nom de l'entreprise</Form.Label>
-						<Form.Control as="select" custom>
-							{this.state.fournisseurs.map((key) =>   <option>{key}</option>)}
-						</Form.Control>
-
-						<Form.Label>Numéro de facture</Form.Label>
-						<Form.Control placeholder="Numéro de Facture"/>
-
-						<Form.Label>Montant de la facure</Form.Label>
-						<Form.Control placeholder="montant de la facture"/>
-
-						<Form.Label>Date de la facturation</Form.Label>
-						<Form.Control placeholder="Date de facturation"/>
-					</Form.Group>
-						<Form.Label>Fichier de votre facture</Form.Label>
-						<Form.File id="formcheck-api-regular">
-							<Form.File.Input />
-						</Form.File>
-
-					<br/>
-					<Button variant="primary" type="submit">
-						Enregistrer
-					</Button>
-				</Form>
-			</Container>
-		);
-
-		let factureOut = (
-			<Container className="principal">
-				<Form>
-					<Form.Group>
-						<Form.Label>Nom du Client</Form.Label>
-						<Form.Control as="select" custom>
-							{this.state.clients.map((key) =>   <option>{key}</option>)}
-						</Form.Control>
-
-						<Form.Label>Numéro de facture</Form.Label>
-						<Form.Control placeholder="Numéro de Facture"/>
-
-						<Form.Label>Montant de la facure</Form.Label>
-						<Form.Control placeholder="montant de la facture"/>
-
-						<Form.Label>Date de la facturation</Form.Label>
-						<Form.Control placeholder="Date de facturation"/>
-					</Form.Group>
-						<Form.Label>Fichier de votre facture</Form.Label>
-						<Form.File id="formcheck-api-regular">
-							<Form.File.Input />
-						</Form.File>
-
-					<br/>
-					<Button variant="primary" type="submit">
-						Enregistrer
-					</Button>
-				</Form>
-			</Container>
-		);
-
 		return (
 			<Container>
 				<Tabs variant="pills" defaultActiveKey="factureIn" id="uncontrolled-tab-factures">
 					<Tab eventKey="factureIn" title="Facture Entrante" >
-						<div>{factureIn}</div>
+						<div><AddFactForm opt={this.state.fournisseurs} optLabel="Nom de l'entreprise"/></div>
 					</Tab>
 					<Tab eventKey="factureOut" title="Facture Sortante">
-						<div>{factureOut}</div>
+					<div><AddFactForm opt={this.state.clients} optLabel="Nom du client"/></div>
 					</Tab>
 				</Tabs>
 			</Container>

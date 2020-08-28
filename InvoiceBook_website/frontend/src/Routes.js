@@ -10,6 +10,7 @@ import AjoutFacture from "./pages/Factures/Ajout.js";
 import RechercheFacture from "./pages/Factures/Recherche.js";
 import AjoutFournisseur from "./pages/AjoutFournisseur.js";
 
+import Resume from "./pages/resume.js";
 
 class Routes extends Component {
   render() {
@@ -30,8 +31,9 @@ class Routes extends Component {
         <Route exact path="/Clients" component={AjoutClient} />
         <Route exact path="/AjoutFacture" component={() => <AjoutFacture user_id={this.props.user_id}/>}
         />
-        <Route exact path="/RechercheFactures" component={RechercheFacture} />
+        <Route exact path="/RechercheFactures" component={() => <RechercheFacture user_id={this.props.user_id} />} />
         <Route exact path="/Fournisseurs" component={AjoutFournisseur} />
+        <Route exact path="/Resume" component={() => <Resume user_id={this.props.user_id} />} />
         <Route render={function () {
               return <p>Not found</p>
             }} />

@@ -1,22 +1,49 @@
 import React, {Component} from 'react';
 import {Container, Table, Row, Col, Form, FormControl} from "react-bootstrap";
 import PDFIcon from "../../assets/pdf-icon.png"
+import { fetchApi } from "../../utilitaires/api.js";
 
 class RechercheFacture extends Component{
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
-			radioType: "Tous",
-			dateDebut: "",
-			dateFin : "",
+			from: "",
+			to : "",
+			dir: 'inout',
+			factures: [{
+				date:"2020-08-12",
+				tier: "Someclient",
+				tune: 8000,
+				pdf:"www.google.com"
+			}],
 		}
 	}
 
-	handleChange = (e) => {
-    var value = e.target.value;
-    console.log(value);
-    this.setState({ radioType: value });
-  }
+	handleChange(e){
+    let target = e.target;
+    let value = target.value;
+    let name = target.name;
+
+    this.setState({ [name]: value }, () =>{
+			let from = '1990-01-01';
+			if(this.state.from)
+			 	from = String(this.state.from);
+
+
+			let to = '2100-01-01';
+			if(this.state.to)
+			 	to = String(this.state.to);
+
+			fetchApi(`/users/${this.props.user_id}/listfactures/?from=${from}&to=${to}&dir=${this.state.dir}`)
+			.then((ans) => {
+				this.setState({factures: ans.factures});
+			})
+			.catch(err => {
+				this.setState({factures: []});
+				console.log('Erreur listfactures ' + err);
+			})
+		});
+  };
 
 	render() {
 		return (
@@ -30,33 +57,39 @@ class RechercheFacture extends Component{
 						<Form.Group>
 							<FormControl
 	              type="date" id="dateDebut"
+								name="from"
+								value={this.state.from}
+                onChange={this.handleChange.bind(this)}
 	            />
 	            <FormControl
 	              type="date" id="dateFin"
+								name="to"
+								value={this.state.to}
+                onChange={this.handleChange.bind(this)}
 	            />
 						</Form.Group>
 					</Col>
 					<Col >
 						Type :
-						<Form.Group value={this.state.radioType} onChange={this.handleChange}>
+						<Form.Group onChange={this.handleChange.bind(this)} value={this.state.dir} name="dir">
 							<Form.Check
 								label="Tous"
 								type="radio"
-								name="TypeCliFou"
-								value="Tous"
+								name="dir"
+								value="inout"
 								defaultChecked
 							/>
 							<Form.Check
 								label="Clients"
 								type="radio"
-								name="TypeCliFou"
-								value="Clients"
+								name="dir"
+								value="out"
 							/>
 							<Form.Check
 								label="Fournisseurs"
 								type="radio"
-								name="TypeCliFou"
-								value="Fournisseur"
+								name="dir"
+								value="in"
 							/>
 						</Form.Group>
 					</Col>
@@ -75,20 +108,15 @@ class RechercheFacture extends Component{
 				    </tr>
 				  </thead>
 					<tbody>
-					<tr>
-						<td>1</td>
-						<td>01/01/2020</td>
-						<td>SomeClient</td>
-						<td>126,6€</td>
-						<td><img src={PDFIcon} height="20px" alt="telecharger pdf"/></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td><img src={PDFIcon} height="20px" alt="telecharger pdf"/></td>
-					</tr>
+
+					{this.state.factures.map((fac, index) => (
+						<tr>
+							<td>{index}</td>
+							<td>{fac.date}</td>
+							<td>{fac.tier}</td>
+							<td>{fac.tune}€</td>
+							<td><a href={fac.pdf}><img src={PDFIcon} height="20px" alt="telecharger pdf"/></a></td>
+						</tr>))}
 					</tbody>
 				</Table>
 			</Container>

@@ -57,7 +57,6 @@ function Header (props) {
 		      <Navbar.Collapse id="basic-navbar-nav">
 		        <Nav  variant="pills" defaultActiveKey="1" className="ml-auto">
 	            <Nav.Link eventKey="1" as={Link} to="/">Home</Nav.Link>
-		          <Nav.Link eventKey="2" as={Link} to="Help">Help</Nav.Link>
 	            <Nav.Link id="Connexion"  onClick={() => props.display_popUp(Connexion)}>
 					      <span>Connexion</span>
 				      </Nav.Link>
@@ -92,7 +91,6 @@ function Header (props) {
 		      <Navbar.Collapse id="basic-navbar-nav">
 				    <Nav variant="pills" defaultActiveKey="1" className="ml-auto">
 					    <Nav.Link eventKey="1" as={Link} to="/">Home</Nav.Link>
-					    <Nav.Link eventKey="2" as={Link} to="Help">Help</Nav.Link>
 				      <NavDropdown title="Menu" id="collasible-nav-dropdown">
 				        <NavDropdown.Item eventKey="3.1" as={Link} to="AjoutFacture">Ajouter une nouvelle Facture</NavDropdown.Item>
 				        <NavDropdown.Item eventKey="3.2" as={Link} to="RechercheFactures">Recherche d'une facture</NavDropdown.Item>
