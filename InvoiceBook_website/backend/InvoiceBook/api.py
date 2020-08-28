@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response as RESTResp
 from rest_framework_jwt.settings import api_settings
 from rest_framework_jwt.utils import jwt_decode_handler
 
@@ -25,7 +26,8 @@ class TestViewSet(viewsets.ViewSet):
 		if self.action == 'create' or self.action == 'login' or self.action == 'login_token' or self.action == 'list':
 			permission_classes = [AllowAny]
 		elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update' or \
-				self.action == 'clients' or self.action == 'factures' or self.action == 'fournisseurs':
+				self.action == 'clients' or self.action == 'factures' or self.action == 'fournisseurs' or \
+				self.action == 'change_password':
 			permission_classes = [IsLoggedInUserOrAdmin]
 		elif self.action == 'names':
 			permission_classes = [IsAdminUser]
@@ -33,7 +35,7 @@ class TestViewSet(viewsets.ViewSet):
 	
 	# GET 127.0.0.1:8000/api/test/
 	def list(self, request):
-		return JsonResponse({"coucou": "yeah"})
+		return Response(json.dumps({"coucou": "yeah"}))
 
 
 #######################
@@ -69,7 +71,7 @@ class UserViewSet(viewsets.ViewSet):
 		""" LIST ALL USERS """
 		queryset = User.objects.all()
 		serializer = UserSerializer(queryset, many=True)
-		return Response(serializer.data)
+		return Response(json.dumps(serializer.data))
 	
 	# GET 127.0.0.1:8000/api/users/1
 	def retrieve(self, request, pk=None):
@@ -77,7 +79,7 @@ class UserViewSet(viewsets.ViewSet):
 		queryset = User.objects.all()
 		user = get_object_or_404(queryset, pk=pk)
 		serializer = UserSerializer(user)
-		return Response(serializer.data)
+		return Response(json.dumps(serializer.data))
 	
 	# GET 127.0.0.1:8000/api/users/noms/
 	def names(self, request, *args, **kwargs):
@@ -86,16 +88,18 @@ class UserViewSet(viewsets.ViewSet):
 		serializer = NomSerializer(queryset, many=True)
 		return Response(serializer.data)
 	
-	# POST 127.0.0.1:8000/api/users/
+	# POST 127.0.0.1:8000/api/users/inscription/?username=some@gmail.com&email=some@gmail.com&password=veryhardpassword&last_name=personne&first_name=some
 	def create(self, request, *args, **kwargs):
 		""" CREATE A NEW USER """
-		data = request.data.copy()
-		serializer = User.objects.create_user(username=data['username'], email=data['email'], password=data['password'])
-		serializer.last_name = data['last_name']
-		serializer.first_name = data['first_name']
+		username=request.query_params.get('username')
+		email = request.query_params.get('email')
+		pwd = request.query_params.get('password')
+		serializer = User.objects.create_user(username=username, email=email, password=pwd)
+		serializer.last_name = request.query_params.get('last_name')
+		serializer.first_name = request.query_params.get('first_name')
 		try:
 			serializer.save()
-			queryset = User.objects.filter(email=data['email'])
+			queryset = User.objects.filter(email=email)
 			user = queryset.get()
 			user.token = self.create_token(user)
 			queryset = set()
@@ -104,11 +108,11 @@ class UserViewSet(viewsets.ViewSet):
 			user.groups.add(group)
 			serializer = UserLoginGetTokenSerializer(queryset, many=True)
 			mkdir(path.join(BASE_DIR, "media/" + user.username))
-			return Response(serializer.data, status=status.HTTP_201_CREATED)
+			return Response(json.dumps(serializer.data[0]), status=status.HTTP_201_CREATED)
 		except IntegrityError as exception:
 			if "unique_email" in str(exception):
 				error = "This email address already exist"
-			return Response({'error': error}, status=status.HTTP_409_CONFLICT)
+			return RESTResp({'error': error}, status=status.HTTP_409_CONFLICT)
 	
 	# GET 127.0.0.1:8000/api/users/login/?email=john.smith@gmail.com&pwd=azertyui
 	@action(detail=False, methods=['get'])
@@ -127,13 +131,13 @@ class UserViewSet(viewsets.ViewSet):
 				queryset.add(user)
 				serializer = UserLoginGetTokenSerializer(queryset, many=True)
 				update_last_login(self, user=user)
-				return Response(serializer.data)
+				return Response(json.dumps(serializer.data[0]))
 			else:
 				error = "Credential error : your username or password may be wrong"
-				return Response({'error': error}, status=status.HTTP_401_UNAUTHORIZED)
+				return RESTResp({'error': error}, status=status.HTTP_401_UNAUTHORIZED)
 		else:
 			error = "Credential error : your username or password may be wrong"
-			return Response({'error': error}, status=status.HTTP_401_UNAUTHORIZED)
+			return RESTResp({'error': error}, status=status.HTTP_401_UNAUTHORIZED)
 	
 	# GET 127.0.0.1:8000/api/users/login_token/?token=klzjehflzfhnqlkfzefqzfghref
 	@action(detail=False, methods=['get'])
@@ -149,10 +153,10 @@ class UserViewSet(viewsets.ViewSet):
 				return Response(serializer.data)
 			else:
 				error = "Invalid token"
-				return Response({'error': error}, status=status.HTTP_404_NOT_FOUND)
+				return RESTResp({'error': error}, status=status.HTTP_404_NOT_FOUND)
 		except:
 			error = "Invalid token"
-			return Response({'error': error}, status=status.HTTP_404_NOT_FOUND)
+			return RESTResp({'error': error}, status=status.HTTP_404_NOT_FOUND)
 	
 	# GET 127.0.0.1:8000/api/users/1/changepwd/?pwd=SomePassword
 	@action(detail=True, methods=['get'])
@@ -163,19 +167,27 @@ class UserViewSet(viewsets.ViewSet):
 		usr.set_password(pwd)
 		try:
 			usr.save()
-			return Response({'status': 'password set'})
+			return Response(json.dumps({'status': 'password set'}))
 		except:
 			error = "Une erreur est survenue"
-			return Response({'error': error}, status=status.HTTP_400_BAD_REQUEST)
+			return RESTResp({'error': error}, status=status.HTTP_400_BAD_REQUEST)
 	
 	# GET,POST 127.0.0.1:8000/api/users/1/clients/
 	@action(detail=True, methods=['get', 'post'])
 	def clients(self, request, pk=None, *args, **kwargs):
 		if request.method == 'GET':
 			""" LIST ALL CUSTOMERS OF AN USER """
-			queryset = UserClient.objects.filter(id_user=pk)
+			
+			# SELECT userclients.id_client, concat(firstname, " ", lastname) as nom
+			# FROM clients
+			# INNER JOIN invoicebook_user on userclients.id = invoicebook_user.id
+			# WHERE invoicebook_user.id=1
+			
+			queryset = Client.objects.filter(id_user=pk)
+			if not queryset:
+				return Response('[]')
 			serializer = UserClientDetailSerializer(queryset, many=True)
-			return Response(serializer.data)
+			return Response(json.dumps(serializer.data[0]))
 		
 		elif request.method == 'POST':
 			""" ADD A CUSTOMER TO AN USER """
@@ -185,7 +197,7 @@ class UserViewSet(viewsets.ViewSet):
 			serializer.is_valid(raise_exception=True)
 			serializer.save()
 			queryset = Client.objects.filter(lastname=data['lastname'], firstname=data['firstname'])
-			return Response(serializer.data, status=status.HTTP_201_CREATED)
+			return Response(json.dumps(serializer.data[0]), status=status.HTTP_201_CREATED)
 	
 	# GET,POST 127.0.0.1:8000/api/users/1/factures/
 	@action(detail=True, methods=['get', 'post'])
@@ -193,8 +205,10 @@ class UserViewSet(viewsets.ViewSet):
 		if request.method == 'GET':
 			""" LIST ALL INVOICES OF AN USER """
 			queryset = Facture.objects.filter(id_user=pk)
+			if not queryset:
+				return Response('[]')
 			serializer = UserFactureDetailSerializer(queryset, many=True)
-			return Response(serializer.data)
+			return Response(json.dumps(serializer.data[0]))
 		
 		elif request.method == 'POST':
 			""" ADD AN INVOICE TO AN USER """
@@ -204,16 +218,18 @@ class UserViewSet(viewsets.ViewSet):
 			serializer.is_valid(raise_exception=True)
 			serializer.save()
 			
-			return Response(serializer.data, status=status.HTTP_201_CREATED)
+			return Response(json.dumps(serializer.data[0]), status=status.HTTP_201_CREATED)
 	
 	# GET,POST 127.0.0.1:8000/api/users/1/fournisseurs/
 	@action(detail=True, methods=['get', 'post'])
 	def fournisseurs(self, request, pk=None, *args, **kwargs):
 		if request.method == 'GET':
 			""" LIST ALL PROVIDERS OF AN USER """
-			queryset = UserFournisseur.objects.filter(id_user=pk)
+			queryset = Fournisseur.objects.filter(id_user=pk)
+			if not queryset:
+				return Response('[]')
 			serializer = UserFournisseurDetailSerializer(queryset, many=True)
-			return Response(serializer.data)
+			return Response(json.dumps(serializer.data[0]))
 		
 		elif request.method == 'POST':
 			""" ADD A PROVIDER TO AN USER """
@@ -222,4 +238,4 @@ class UserViewSet(viewsets.ViewSet):
 			serializer = UserFournisseurSerializer(data=data)
 			serializer.is_valid(raise_exception=True)
 			serializer.save()
-			return Response(serializer.data, status=status.HTTP_201_CREATED)
+			return Response(json.dump(serializer.data[0]), status=status.HTTP_201_CREATED)

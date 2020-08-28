@@ -49,16 +49,15 @@ class FournisseurSerializer(serializers.ModelSerializer):
 
 class UserFournisseurSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = UserFournisseur
+		model = Fournisseur
 		fields = ('id_user', 'id_fournisseur')
 
 
 class UserFournisseurDetailSerializer(serializers.ModelSerializer):
-	fournisseur = FournisseurSerializer(source='id_fournisseur', read_only=True)
 	
 	class Meta:
-		model = UserFournisseur
-		fields = ('id_user', 'fournisseur')
+		model = Fournisseur
+		fields = ('id_user', 'name',)
 
 
 ##########################################
@@ -74,16 +73,15 @@ class ClientSerializer(serializers.ModelSerializer):
 
 class UserClientSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = UserClient
+		model = Client
 		fields = ('id_user', 'id_client')
 
 
 class UserClientDetailSerializer(serializers.ModelSerializer):
-	client = ClientSerializer(source='id_client', read_only=True)
 	
 	class Meta:
-		model = UserClient
-		fields = ('id_user', 'client')
+		model = Client
+		fields = ('id_user', ('firstname' + " " + 'lastname'), )
 
 
 ##########################################
@@ -97,7 +95,6 @@ class FactureSerializer(serializers.ModelSerializer):
 
 
 class UserFactureDetailSerializer(serializers.ModelSerializer):
-	facture = FactureSerializer(source='id_facture', read_only=True)
 	
 	class Meta:
 		model = Facture
@@ -105,6 +102,9 @@ class UserFactureDetailSerializer(serializers.ModelSerializer):
 
 
 class TierFactureDetailSerializer(serializers.ModelSerializer):
+	fournisseur = FournisseurSerializer(source='id_fournisseur', read_only=True)
+	client = FournisseurSerializer(source='id_client', read_only=True)
+	
 	class Meta:
 		model = Facture
-		fields = ('id_facture', 'id_fournisseur', 'id_client')
+		fields = ('id_facture', 'fournisseur.nom', ('client.firstname' + " " + 'client.lastname'))
