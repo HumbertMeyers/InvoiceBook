@@ -18,7 +18,7 @@ django-filter==2.3.0
 django-internationalflavor==0.4.0
 django-localflavor==3.0.1
 django-referrer-policy==1.0
-djangorestframework==3.11.1
+djangorestframework==3.11.2
 djangorestframework-jwt==1.11.0
 entrypoints==0.3
 filelock==3.0.12
